@@ -1,0 +1,18 @@
+{
+  "name": "bonfire",
+  "displayName": "Bonfire",
+  "version": "1.0.0",
+  "description": "Node job scheduling backed by Firebase RD.",
+  "main": "dist/Bonfire.js",
+  "repository": "https://github.com/Karn/Bonfire.git",
+  "author": "Karn Saheb <saheb.karn@live.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/firebase/geofire-js/issues"
+  },
+  "dependencies": {
+    "@types/node-schedule": "1.2.0",
+    "firebase-admin": "5.0.0",
+    "node-schedule": "1.2.3"
+  }
+}
