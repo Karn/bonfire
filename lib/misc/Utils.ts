@@ -1,5 +1,3 @@
-import { LatLng } from './LatLng';
-
 export class Utils {
 
     /**

@@ -7,7 +7,6 @@ export namespace Bonfire {
     export type JobCompletionHandler = (jobKey: string, job: Job) => void
     export type JobCreatedResult = (job: Job) => void
     export type ErrorResult = (error: Error) => void
-
 }
 
 export default class Bonfire {
@@ -149,7 +148,9 @@ export default class Bonfire {
                     }
 
                     // Cancel keys
-                    this.jobList.get(key).cancel()
+                    let job: NodeSchedule.Job = this.jobList.get(key)
+                    job.cancel()
+
                     this.jobList.delete(key)
 
                     resolve()

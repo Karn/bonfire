@@ -10,12 +10,13 @@ export class Job {
 
     public static fromJson(data: any): Job {
         let job: Job = new Job()
+
         job.setKey(data['id'])
         job.setType(data['type'])
         // TODO: This needs to be converted from millis to a date.
         job.setScheduledDateTime(new Date(data['scheduled_date_time']))
 
-        return
+        return job
     }
 
     public getKey(): string {

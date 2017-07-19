@@ -1,23 +1,23 @@
 {
   "name": "@karn/bonfire",
   "displayName": "Bonfire",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Node job scheduling backed by Firebase RD.",
   "main": "dist/Bonfire.js",
   "scripts": {
     "prepublish": "yarn build",
     "build": "tsc"
   },
-  "repository": "https://github.com/Karn/Bonfire.git",
+  "repository": "https://github.com/Karn/bonfire.git",
   "author": "Karn Saheb <hello@karn.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/firebase/geofire-js/issues"
+    "url": "https://github.com/karn/bonfire/issues"
   },
   "types": "dist/Bonfire.d.ts",
   "devDependencies": {
-    "@types/node": "^8.0.14",
     "@types/node-schedule": "1.2.0",
+    "@types/node": "^8.0.14",
     "typescript": "^2.4.1"
   },
   "dependencies": {

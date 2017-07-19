@@ -12,6 +12,4 @@ class FirebaseNode {
 
 export class FirebaseController {
 
-    public static get
-
 }
