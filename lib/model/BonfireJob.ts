@@ -1,5 +1,6 @@
-import { Utils } from '../misc/Utils';
-export class Job {
+import { Utils } from '../misc/Utils'
+
+export class BonfireJob {
 
     private key: string
     private type: string
@@ -8,8 +9,8 @@ export class Job {
     public constructor() {
     }
 
-    public static fromJson(data: any): Job {
-        let job: Job = new Job()
+    public static fromJson(data: any): BonfireJob {
+        let job: BonfireJob = new BonfireJob()
 
         job.setKey(data['id'])
         job.setType(data['type'])

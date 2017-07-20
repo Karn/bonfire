@@ -1,0 +1,9 @@
+yarn-error.log
+.yarnclean
+yarn.lock
+.github
+lib
+*.tgz
+tsconfig
+.npmignore
+test
