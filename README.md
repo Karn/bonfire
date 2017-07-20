@@ -2,7 +2,7 @@
 
 
 ## Bonfire
-Node job scheduling backed by Firebase RD.
+Node job scheduling backed by Firebase RD.s
 
 
 ###### FEATURES
@@ -17,15 +17,16 @@ Node job scheduling backed by Firebase RD.
 - Recurring jobs.
 
 
-
 ###### GETTING STARTED
-You can install Bonfire using Yarn or NPM.
+You can install Bonfire using Yarn or NPM. 
+
+It is recommended that you use `--exact` as the library is constantly evolving and may break without notice.
 
 ```sh
 # Via Yarn:
-$ yarn add @karn/bonfire --save
+$ yarn add @karn/bonfire --exact
 # or via NPM:
-$ npm install @karn/bonfire --save
+$ npm install @karn/bonfire --save-exact
 ```
 
 ```javascript
