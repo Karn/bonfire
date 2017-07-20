@@ -1,7 +1,7 @@
 {
   "name": "@karn/bonfire",
   "displayName": "Bonfire",
-  "version": "0.0.2",
+  "version": "0.0.21",
   "description": "Node job scheduling backed by Firebase RD.",
   "main": "dist/Bonfire.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "firebase-admin": "5.0.0",
+    "firebase-admin": "5.0.1",
     "node-schedule": "1.2.3"
   }
 }
