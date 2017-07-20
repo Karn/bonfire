@@ -10,6 +10,14 @@ Node job scheduling backed by Firebase RD.
 - Requeuing existing jobs from a cold server start.
 
 
+###### ROADMAP
+- Reque on failure.
+- Updating scheduled jobs.
+- Execution timeouts.
+- Recurring jobs.
+
+
+
 ###### GETTING STARTED
 You can install Bonfire using Yarn or NPM.
 
