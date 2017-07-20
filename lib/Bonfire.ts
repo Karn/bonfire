@@ -34,6 +34,8 @@ namespace Bonfire {
             this.jobCompletionHandler = jobCompletionHandler
 
             this.jobList = new Map<string, NodeSchedule.Job>()
+
+            this.queueExistingJobs()
         }
 
         /**
@@ -41,6 +43,43 @@ namespace Bonfire {
          */
         public getRef(): Firebase.database.Reference {
             return this.bonfireRef
+        }
+
+        /**
+         * Process jobs that may have not been started due to a server restart.
+         */
+        private queueExistingJobs(): void {
+
+            // Lookup the reference to the node in an attempt to queue jobs after
+            // instantiation.
+            this.bonfireRef.once('value')
+                .then((nodeSnapshot: Firebase.database.DataSnapshot) => {
+
+                    // Ensure that the object exists.
+                    if (!nodeSnapshot.exists()) {
+                        // Job node does not exist. Nothin to do here.
+                        return
+                    }
+
+                    // Iterate through the jobs and requeue as neccessart.
+                    nodeSnapshot.forEach((jobSnapshot: Firebase.database.DataSnapshot) => {
+
+                        // Ensure that the object exists.
+                        if (!jobSnapshot.exists()) {
+                            // Job does not exist. Nothin to do here.
+                            return false
+                        }
+
+                        // Parse the snapshot into its corresponding Job object.
+                        let job: BonfireJob = BonfireJob.fromJson(jobSnapshot.val())
+
+                        // Delegate the job item to the actual job scheduler.
+                        this.scheduleJob(job)
+
+                        // Returning true exits from the iterator.
+                        return false
+                    })
+                })
         }
 
         /**
@@ -65,7 +104,11 @@ namespace Bonfire {
                             return
                         }
 
+                        // Notify the completion handler about the job.
                         this.jobCompletionHandler(key, BonfireJob.fromJson(jobSnapshot.val()))
+
+                        // We then delete the job from the referenced node.
+                        jobSnapshot.ref.remove()
                     })
             }
         }
@@ -104,15 +147,8 @@ namespace Bonfire {
                             shouldCreateLocallyOnly = true
                         }
 
-                        // Create the scheduled job
-                        const scheduledJob: NodeSchedule.Job = NodeSchedule.scheduleJob(
-                            job.getKey(),
-                            job.getScheduledDateTime(),
-                            this.getJobCallback(job.getKey())
-                        )
-
-                        // Add the new job to the list of jobs.
-                        this.jobList.set(job.getKey(), scheduledJob);
+                        // Delegate the job item to the actual job scheduler.
+                        this.scheduleJob(job)
 
                         if (shouldCreateLocallyOnly) {
                             // Since we only want to create it locally, we will complete here.
@@ -127,6 +163,23 @@ namespace Bonfire {
                             }).catch(reject)
                     })
             })
+        }
+
+        private scheduleJob(job: BonfireJob) {
+            if (this.jobList.has(job.getKey())) {
+                // Skip scheduling job for a key that already exists.
+                return
+            }
+
+            // Create the scheduled job
+            const scheduledJob: NodeSchedule.Job = NodeSchedule.scheduleJob(
+                job.getKey(),
+                job.getScheduledDateTime(),
+                this.getJobCallback(job.getKey())
+            )
+
+            // Add the new job to the list of jobs.
+            this.jobList.set(job.getKey(), scheduledJob);
         }
 
         /**
