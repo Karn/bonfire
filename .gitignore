@@ -2,3 +2,6 @@
 dist/
 node_modules/
 package/
+yarn-error.log
+*.tgz
+.yarnclean
