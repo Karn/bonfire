@@ -7,6 +7,7 @@ Node job scheduling backed by Firebase RD.s
 
 ###### FEATURES
 - Scheduling a new job and automatic redundancy via Firebase.
+- Cancelling existing jobs from job key.
 - Requeuing existing jobs from a cold server start.
 
 

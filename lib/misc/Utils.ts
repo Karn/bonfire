@@ -1,6 +1,15 @@
 export class Utils {
 
     /**
+     * Generic sleep.
+     * 
+     * @param millis Time to sleep in milliseconds.
+     */
+    public static sleep(millis: number): Promise<any> {
+        return new Promise((resolve: any) => setTimeout(resolve, millis))
+    }
+
+    /**
      * Returns true if the supplied type is a number.
      *
      * @param val   An unkown type that is being tested to determine if it is
