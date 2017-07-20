@@ -1,6 +1,12 @@
 ## Bonfire
 Node job scheduling backed by Firebase RD.
 
+
+###### FEATURES
+- Scheduling a new job and automatic redundancy via Firebase.
+- Requeuing existing jobs from a cold server start.
+
+
 ###### GETTING STARTED
 You can install Bonfire using Yarn or NPM.
 
@@ -37,7 +43,7 @@ let jobScheduler: Bonfire = new Bonfire(ref, (key: String, job: BonfireJob) => {
 })
 ```
 
-Now you're probably wondering, how do i schedule my first job? Its actually quite simple.
+Now you're probably wondering, how do I schedule my first job? Its actually quite simple.
 ```javascript
 let job: BonfireJob = new BonfireJob()
 
@@ -48,7 +54,8 @@ job.setKey('test_key')
 // The type helps you figure out how to handle the job and parse its payload.
 job.setType('TYPE_SIMPLE_JOB')
 
-// Last but not least, the time at which the job will be executed. In this case, it will be executed 60 seconds from the current time.
+// Last but not least, set the time at which the job will be executed. In this
+// case, it will be executed 60 seconds from the current time.
 job.setScheduledDateTime(new Date(Date.now() + 60000))
 
 // Finally we schedule our job and wait for the magic to happen.
@@ -59,6 +66,7 @@ Shortly after you will see the following message in your console.
 ```
 Completed job with key: test_key
 ```
+
 
 ###### TODO
 - Autogenerate keys for jobs without keys.
