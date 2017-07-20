@@ -48,38 +48,36 @@ namespace Bonfire {
         /**
          * Process jobs that may have not been started due to a server restart.
          */
-        private queueExistingJobs(): void {
+        private async queueExistingJobs(): Promise<void> {
 
             // Lookup the reference to the node in an attempt to queue jobs after
             // instantiation.
-            this.bonfireRef.once('value')
-                .then((nodeSnapshot: Firebase.database.DataSnapshot) => {
+            const nodeSnapshot: Firebase.database.DataSnapshot = await this.bonfireRef.once('value')
 
-                    // Ensure that the object exists.
-                    if (!nodeSnapshot.exists()) {
-                        // Job node does not exist. Nothin to do here.
-                        return
-                    }
+            // Ensure that the object exists.
+            if (!nodeSnapshot.exists()) {
+                // Job node does not exist. Nothin to do here.
+                return
+            }
 
-                    // Iterate through the jobs and requeue as neccessart.
-                    nodeSnapshot.forEach((jobSnapshot: Firebase.database.DataSnapshot) => {
+            // Iterate through the jobs and requeue as neccessart.
+            nodeSnapshot.forEach((jobSnapshot: Firebase.database.DataSnapshot) => {
 
-                        // Ensure that the object exists.
-                        if (!jobSnapshot.exists()) {
-                            // Job does not exist. Nothin to do here.
-                            return false
-                        }
+                // Ensure that the object exists.
+                if (!jobSnapshot.exists()) {
+                    // Job does not exist. Nothin to do here.
+                    return false
+                }
 
-                        // Parse the snapshot into its corresponding Job object.
-                        let job: BonfireJob = BonfireJob.fromJson(jobSnapshot.val())
+                // Parse the snapshot into its corresponding Job object.
+                let job: BonfireJob = BonfireJob.fromJson(jobSnapshot.val())
 
-                        // Delegate the job item to the actual job scheduler.
-                        this.scheduleJob(job)
+                // Delegate the job item to the actual job scheduler.
+                this.scheduleJob(job)
 
-                        // Returning true exits from the iterator.
-                        return false
-                    })
-                })
+                // Returning true exits from the iterator.
+                return false
+            })
         }
 
         /**
@@ -88,28 +86,26 @@ namespace Bonfire {
          * @param key   The firebase key associated with the job.
          */
         private getJobCallback(key: string): (() => void) {
-            return () => {
+            return async () => {
                 if (!this.jobCompletionHandler) {
                     // There is no callback attached skip processing.
                     // TODO: Warn the user.
                     return
                 }
 
-                this.bonfireRef.child(key).once('value')
-                    .then((jobSnapshot: Firebase.database.DataSnapshot) => {
+                const jobSnapshot: Firebase.database.DataSnapshot = await this.bonfireRef.child(key).once('value')
 
-                        // Ensure that the object exists.
-                        if (!jobSnapshot.exists()) {
-                            // Job does not exist. Nothin to do here.
-                            return
-                        }
+                // Ensure that the object exists.
+                if (!jobSnapshot.exists()) {
+                    // Job does not exist. Nothin to do here.
+                    return
+                }
 
-                        // Notify the completion handler about the job.
-                        this.jobCompletionHandler(key, BonfireJob.fromJson(jobSnapshot.val()))
+                // Notify the completion handler about the job.
+                this.jobCompletionHandler(key, BonfireJob.fromJson(jobSnapshot.val()))
 
-                        // We then delete the job from the referenced node.
-                        jobSnapshot.ref.remove()
-                    })
+                // We then delete the job from the referenced node.
+                jobSnapshot.ref.remove()
             }
         }
 
@@ -119,50 +115,43 @@ namespace Bonfire {
          * 
          * @param job   A job object describing the contents and payload of the job.
          */
-        public schedule(job: BonfireJob): Promise<BonfireJob> {
-            return new Promise<BonfireJob>((resolve: JobCreatedResult, reject: ErrorResult) => {
+        public async schedule(job: BonfireJob): Promise<BonfireJob> {
 
-                // Ensure the job has a key.
-                if (!job.getKey()) {
-                    reject(new Error('Cannot process job without a key.'))
-                    return
+            // Ensure the job has a key.
+            if (!job.getKey()) {
+                throw new Error('Cannot process job without a key.')
+            }
+
+            // In the event that we are starting a job as a result of a server refresh, we enable
+            // this variable so that we don't waste cycles.
+            let shouldCreateLocallyOnly: boolean = false
+
+            let jobSnapshot: Firebase.database.DataSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
+            if (jobSnapshot.exists()) {
+
+                // Check if we already have the job queued
+                if (!this.jobList.has(job.getKey())) {
+                    // The job already exists; nothing to do here.
+                    return job
                 }
 
-                this.bonfireRef.child(job.getKey()).once('value')
-                    .then((jobSnapshot: Firebase.database.DataSnapshot) => {
-                        // In the event that we are starting a job as a result of a server refresh, we enable
-                        // this variable so that we don't waste cycles.
-                        let shouldCreateLocallyOnly: boolean = false
+                // Enable flag the allows the session to be created locally.
+                shouldCreateLocallyOnly = true
+            }
 
-                        if (jobSnapshot.exists()) {
+            // Delegate the job item to the actual job scheduler.
+            this.scheduleJob(job)
 
-                            // Check if we already have the job queued
-                            if (!this.jobList.has(job.getKey())) {
-                                // The job already exists; nothing to do here.
-                                resolve(job)
-                                return
-                            }
+            if (shouldCreateLocallyOnly) {
+                // Since we only want to create it locally, we will complete here.
+                return job
+            }
 
-                            // Enable flag the allows the session to be created locally.
-                            shouldCreateLocallyOnly = true
-                        }
-
-                        // Delegate the job item to the actual job scheduler.
-                        this.scheduleJob(job)
-
-                        if (shouldCreateLocallyOnly) {
-                            // Since we only want to create it locally, we will complete here.
-                            resolve(job)
-                            return
-                        }
-
-                        // Create job with the key in the jobItem and with the data being the data from the JobItem.
-                        jobSnapshot.ref.set(job.asJson())
-                            .then(() => {
-                                resolve(job)
-                            }).catch(reject)
-                    })
-            })
+            // Create job with the key in the jobItem and with the data being the data from the JobItem.
+            jobSnapshot.ref.set(job.asJson())
+                .then(() => {
+                    return job
+                })
         }
 
         private scheduleJob(job: BonfireJob) {
@@ -187,26 +176,20 @@ namespace Bonfire {
          * 
          * @param key   The key associated with the job.
          */
-        public cancel(key: string): Promise<void> {
-            return new Promise<void>((resolve: any, reject: any) => {
-                this.bonfireRef.child(key).remove()
-                    .then(() => {
+        public async cancel(key: string): Promise<void> {
 
-                        // Validate key
-                        if (!this.jobList.has(key)) {
-                            resolve()
-                            return
-                        }
+            await this.bonfireRef.child(key).remove()
 
-                        // Cancel keys
-                        let job: NodeSchedule.Job = this.jobList.get(key)
-                        job.cancel()
+            // Validate key
+            if (!this.jobList.has(key)) {
+                return
+            }
 
-                        this.jobList.delete(key)
+            // Cancel keys
+            let job: NodeSchedule.Job = this.jobList.get(key)
+            job.cancel()
 
-                        resolve()
-                    }).catch(reject)
-            })
+            this.jobList.delete(key)
         }
     }
 }

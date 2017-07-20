@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "declaration": true,
+        "outDir": "./dist",
+        "types": [
+            "node"
+        ]
+    }
+}
