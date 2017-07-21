@@ -36,7 +36,7 @@ import { Bonfire } from '@karn/bonfire'
 
 
 ###### USING BONFIRE
-Start by providing a reference to the Firebase key within your Firebase Database which will serve as the redundancy mechanism for the queued jobs. Additionally, a callback to process the completed jobs must be specified.
+Start by providing a reference to the Firebase key within your Firebase Database. This will serve as the redundancy mechanism for the queued jobs. Additionally, a callback to process the completed jobs must be specified.
 
 ```javascript
 // Import the Firebase Admin SDK
@@ -56,7 +56,8 @@ let jobScheduler: Bonfire.Scheduler = new Bonfire.Scheduler(ref, (key: String, j
 })
 ```
 
-Now you're probably wondering, how do I schedule my first job? Its actually quite simple.
+Now you're probably wondering, how do I schedule my first job...? Well, it's actually quite simple.
+
 ```javascript
 let job: BonfireJob = new BonfireJob(
     // Setting the key is important, it serves as the key/id of the job, and

@@ -1,8 +1,15 @@
 {
   "name": "@karn/bonfire",
   "displayName": "Bonfire",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "description": "Node job scheduling backed by Firebase RD.",
+  "keywords": [
+    "firebase",
+    "scheduling",
+    "jobs",
+    "job-queue",
+    "job-service"
+  ],
   "main": "./dist/Bonfire.js",
   "scripts": {
     "prepare": "yarn build",
