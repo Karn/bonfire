@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "yarn build",
     "build": "tsc",
-    "test": "mocha -r ts-node/register ./test/Suite.ts"
+    "test": "mocha -r ts-node/register ./test/units/Suite.ts"
   },
   "repository": "https://github.com/Karn/bonfire.git",
   "author": "Karn Saheb <hello@karn.io>",
@@ -29,6 +29,7 @@
     "@types/node": "^8.0.14",
     "@types/node-schedule": "1.2.0",
     "chai": "^4.1.0",
+    "coveralls": "^2.13.1",
     "mocha": "^3.4.2",
     "ts-node": "^3.2.1",
     "typescript": "^2.4.1"

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import * as Mocha from 'mocha'
-import { Bonfire, BonfireJob } from './../lib/Bonfire'
+import { Bonfire, BonfireJob } from './../../lib/Bonfire'
 
 describe('BonfireJob Validation:', () => {
 
