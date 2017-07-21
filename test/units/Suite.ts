@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import * as Mocha from 'mocha'
-import { Bonfire, BonfireJob } from './../../lib/Bonfire'
+import { Bonfire } from './../../lib/Index'
 
 describe('BonfireJob Validation:', () => {
 
@@ -9,7 +9,7 @@ describe('BonfireJob Validation:', () => {
 
             // Validate a null key.
             expect(() => {
-                new BonfireJob(
+                new Bonfire.Job(
                     null,
                     null,
                     null
@@ -18,7 +18,7 @@ describe('BonfireJob Validation:', () => {
 
             // Validate an empty string
             expect(() => {
-                new BonfireJob(
+                new Bonfire.Job(
                     '',
                     null,
                     null
@@ -30,7 +30,7 @@ describe('BonfireJob Validation:', () => {
 
             // Validate a null type.
             expect(() => {
-                new BonfireJob(
+                new Bonfire.Job(
                     'test_key',
                     null,
                     null
@@ -39,7 +39,7 @@ describe('BonfireJob Validation:', () => {
 
             // Validate a empty string.
             expect(() => {
-                new BonfireJob(
+                new Bonfire.Job(
                     'test_key',
                     '',
                     null
@@ -59,10 +59,10 @@ describe('BonfireJob Validation:', () => {
                 'scheduled_date_time': date
             }
 
-            let job: BonfireJob = null
+            let job: Bonfire.Job = null
 
             expect(() => {
-                job = BonfireJob.fromJson(jobData)
+                job = Bonfire.Job.fromJson(jobData)
             }).to.not.throw()
 
             expect(job).to.not.be.null
@@ -85,10 +85,10 @@ describe('BonfireJob Validation:', () => {
                 }
             }
 
-            let job: BonfireJob = null
+            let job: Bonfire.Job = null
 
             expect(() => {
-                job = BonfireJob.fromJson(jobData)
+                job = Bonfire.Job.fromJson(jobData)
             }).to.not.throw()
 
             expect(job).to.not.be.null
@@ -113,7 +113,7 @@ describe('Bonfire Scheduler:', () => {
             expect(() => {
 
                 // Null is not a valid geofire ref.
-                new Bonfire.Scheduler(null, (key: string, job: BonfireJob) => {
+                new Bonfire.Scheduler(null, (key: string, job: Bonfire.Job) => {
                     console.log('Processing job with key: ' + key)
                 })
             }).to.throw()

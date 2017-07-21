@@ -10,7 +10,7 @@
     "job-queue",
     "job-service"
   ],
-  "main": "./dist/Bonfire.js",
+  "main": "./dist/Index.js",
   "scripts": {
     "prepare": "yarn build",
     "build": "tsc",
@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/karn/bonfire/issues"
   },
-  "types": "dist/Bonfire.d.ts",
+  "types": "dist/Index.d.ts",
   "devDependencies": {
     "@types/chai": "^4.0.1",
     "@types/mocha": "^2.2.41",

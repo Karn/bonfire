@@ -1,4 +1,4 @@
-export class BonfireJob {
+export class Job {
 
     private key: string = null
     private type: string = null
@@ -35,8 +35,8 @@ export class BonfireJob {
      *              job.
      * @return  A BonfireJob object corresponding to the JSON object provided. 
      */
-    public static fromJson(data: any): BonfireJob {
-        let job: BonfireJob = new BonfireJob(
+    public static fromJson(data: any): Job {
+        let job: Job = new Job(
             data['id'],
             data['type'],
             new Date(data['scheduled_date_time'])
