@@ -36,7 +36,3 @@ $ npm install @karn/bonfire --save-exact
 ```javascript
 import { Bonfire } from '@karn/bonfire'
 ```
-
-
-###### TODO
-- Autogenerate keys for jobs without keys.
