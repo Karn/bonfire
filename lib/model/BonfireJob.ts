@@ -1,9 +1,9 @@
 export class BonfireJob {
 
-    private key: string
-    private type: string
-    private scheduledDateTime: Date
-    private payload: any
+    private key: string = null
+    private type: string = null
+    private scheduledDateTime: Date = null
+    private payload: any = null
 
     /**
      * Create the basic components of a Job.
@@ -15,7 +15,7 @@ export class BonfireJob {
      */
     public constructor(key: string, type: string, datetime: Date) {
 
-        if (!key) {
+        if (!key || key.length == 0) {
             throw new Error('Invalid key provided.')
         }
 
@@ -43,7 +43,7 @@ export class BonfireJob {
         )
 
         if (data['payload']) {
-            job.setPayload(JSON.parse(data['payload']))
+            job.setPayload(data['payload'])
         }
 
         return job
