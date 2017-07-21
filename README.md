@@ -4,6 +4,10 @@
 ## Bonfire
 Node job scheduling backed by Firebase RD.
 
+###### STATUS
+
+[![Build Status](https://travis-ci.org/Karn/bonfire.svg?branch=master)](https://travis-ci.org/Karn/bonfire)
+[![Coverage Status](https://coveralls.io/repos/github/Karn/bonfire/badge.svg?branch=master)](https://coveralls.io/github/Karn/bonfire?branch=master)
 
 ###### FEATURES
 - Scheduling a new job and automatic redundancy via Firebase.
