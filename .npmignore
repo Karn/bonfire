@@ -7,3 +7,4 @@ lib
 tsconfig
 .npmignore
 test
+docs

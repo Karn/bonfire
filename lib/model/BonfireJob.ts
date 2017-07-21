@@ -6,9 +6,26 @@ export class BonfireJob {
     private payload: any
 
     /**
-     * Empty constructor.
+     * Create the basic components of a Job.
+     * 
+     * @param key       A unique key to identify this job.
+     * @param type      The type used to catagorize this job.
+     * @param datatime  The time at which this job will execute as a Date
+     *                  object.
      */
-    public constructor() {
+    public constructor(key: string, type: string, datetime: Date) {
+
+        if (!key) {
+            throw new Error('Invalid key provided.')
+        }
+
+        if (!type || type.length == 0) {
+            throw new Error('The job type must be a valid string and with a length greater than 0.')
+        }
+
+        this.key = key
+        this.type = type
+        this.scheduledDateTime = datetime
     }
 
     /**
@@ -19,14 +36,14 @@ export class BonfireJob {
      * @return  A BonfireJob object corresponding to the JSON object provided. 
      */
     public static fromJson(data: any): BonfireJob {
-        let job: BonfireJob = new BonfireJob()
-
-        job.setKey(data['id'])
-        job.setType(data['type'])
-        job.setScheduledDateTime(new Date(data['scheduled_date_time']))
+        let job: BonfireJob = new BonfireJob(
+            data['id'],
+            data['type'],
+            new Date(data['scheduled_date_time'])
+        )
 
         if (data['payload']) {
-            job.setPayload(data['payload'])
+            job.setPayload(JSON.parse(data['payload']))
         }
 
         return job
@@ -121,7 +138,7 @@ export class BonfireJob {
         }
 
         if (this.payload) {
-            obj['payload'] = this.payload
+            obj['payload'] = JSON.stringify(this.payload)
         }
 
         return obj

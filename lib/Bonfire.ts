@@ -1,5 +1,4 @@
 import * as NodeSchedule from 'node-schedule'
-import { Utils } from './misc/Utils'
 import { BonfireJob } from './model/BonfireJob'
 import * as Firebase from 'firebase-admin'
 
@@ -123,6 +122,28 @@ namespace Bonfire {
         }
 
         /**
+         * Leverage the NodeSchedule library to schedule a one time job.
+         * 
+         * @param job The job that is being scheduled.
+         */
+        private scheduleJob(job: BonfireJob): void {
+            if (this.jobList.has(job.getKey())) {
+                // Skip scheduling job for a key that already exists.
+                return
+            }
+
+            // Create the scheduled job
+            const scheduledJob: NodeSchedule.Job = NodeSchedule.scheduleJob(
+                job.getKey(),
+                job.getScheduledDateTime(),
+                this.getJobCallback(job.getKey())
+            )
+
+            // Add the new job to the list of jobs.
+            this.jobList.set(job.getKey(), scheduledJob);
+        }
+
+        /**
          * Scheduled a job and store its metadata to initially defined Firebase
          * database reference.
          * 
@@ -131,15 +152,9 @@ namespace Bonfire {
          * @return  A Promise which resolves with the given job.
          */
         public async schedule(job: BonfireJob): Promise<BonfireJob> {
-
-            // Ensure the job has a key.
-            if (!job.getKey()) {
-                throw new Error('Cannot process job without a key.')
-            }
-
             // Ensure that the job is in the future.
             if (job.getScheduledDateTime().getTime() < Date.now()) {
-                throw new Error('Cannot schedule a job to complete in a time that no longer exists.')
+                throw new Error('Cannot schedule a job to complete in a time that is the past.')
             }
 
             // In the event that we are starting a job as a result of a server
@@ -152,7 +167,7 @@ namespace Bonfire {
                 // Check if we already have the job queued
                 if (!this.jobList.has(job.getKey())) {
                     // The job already exists; nothing to do here.
-                    return job
+                    return BonfireJob.fromJson(jobSnapshot.val())
                 }
 
                 // Enable flag the allows the session to be created locally.
@@ -176,23 +191,6 @@ namespace Bonfire {
                 })
         }
 
-        private scheduleJob(job: BonfireJob) {
-            if (this.jobList.has(job.getKey())) {
-                // Skip scheduling job for a key that already exists.
-                return
-            }
-
-            // Create the scheduled job
-            const scheduledJob: NodeSchedule.Job = NodeSchedule.scheduleJob(
-                job.getKey(),
-                job.getScheduledDateTime(),
-                this.getJobCallback(job.getKey())
-            )
-
-            // Add the new job to the list of jobs.
-            this.jobList.set(job.getKey(), scheduledJob);
-        }
-
         /**
          * Cancel a pending job and remove the Firebase node in the process.
          * 
@@ -200,12 +198,12 @@ namespace Bonfire {
          */
         public async cancel(key: string): Promise<void> {
 
-            await this.bonfireRef.child(key).remove()
-
             // Validate key
             if (!this.jobList.has(key)) {
                 return
             }
+
+            await this.bonfireRef.child(key).remove()
 
             // Cancel keys
             let job: NodeSchedule.Job = this.jobList.get(key)
