@@ -9,5 +9,8 @@
         "types": [
             "node"
         ]
-    }
+    },
+    "include": [
+        "./lib/**/*.ts"
+    ]
 }

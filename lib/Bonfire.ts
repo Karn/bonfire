@@ -72,6 +72,18 @@ namespace Bonfire {
                 // Parse the snapshot into its corresponding Job object.
                 let job: BonfireJob = BonfireJob.fromJson(jobSnapshot.val())
 
+                // Ensure that the job is in the future.
+                if (job.getScheduledDateTime().getTime() < Date.now()) {
+                    // Cannot schedule a job to complete in a time that no
+                    // longer exists. We notify on the callback so that the
+                    // case can be handled.
+                    this.jobCompletionHandler(job.getKey(), job)
+                    jobSnapshot.ref.remove()
+
+                    // And continue to the next item.
+                    return false
+                }
+
                 // Delegate the job item to the actual job scheduler.
                 this.scheduleJob(job)
 
@@ -81,7 +93,8 @@ namespace Bonfire {
         }
 
         /**
-         * Generates a callback which is executed when the given job is scheduled.
+         * Generates a callback which is executed when the given job is 
+         * scheduled.
          *
          * @param key   The firebase key associated with the job.
          */
@@ -113,7 +126,9 @@ namespace Bonfire {
          * Scheduled a job and store its metadata to initially defined Firebase
          * database reference.
          * 
-         * @param job   A job object describing the contents and payload of the job.
+         * @param job   A job object describing the contents and payload of the
+         *              job.
+         * @return  A Promise which resolves with the given job.
          */
         public async schedule(job: BonfireJob): Promise<BonfireJob> {
 
@@ -122,8 +137,13 @@ namespace Bonfire {
                 throw new Error('Cannot process job without a key.')
             }
 
-            // In the event that we are starting a job as a result of a server refresh, we enable
-            // this variable so that we don't waste cycles.
+            // Ensure that the job is in the future.
+            if (job.getScheduledDateTime().getTime() < Date.now()) {
+                throw new Error('Cannot schedule a job to complete in a time that no longer exists.')
+            }
+
+            // In the event that we are starting a job as a result of a server
+            // refresh, we enable this variable so that we don't waste cycles.
             let shouldCreateLocallyOnly: boolean = false
 
             let jobSnapshot: Firebase.database.DataSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
@@ -143,11 +163,13 @@ namespace Bonfire {
             this.scheduleJob(job)
 
             if (shouldCreateLocallyOnly) {
-                // Since we only want to create it locally, we will complete here.
+                // Since we only want to create it locally, we will complete
+                // here.
                 return job
             }
 
-            // Create job with the key in the jobItem and with the data being the data from the JobItem.
+            // Create job with the key in the jobItem and with the data being
+            // the data from the JobItem.
             jobSnapshot.ref.set(job.asJson())
                 .then(() => {
                     return job

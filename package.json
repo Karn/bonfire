@@ -6,7 +6,8 @@
   "main": "./dist/Bonfire.js",
   "scripts": {
     "prepare": "yarn build",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "mocha -r ts-node/register ./test/Suite.ts"
   },
   "repository": "https://github.com/Karn/bonfire.git",
   "author": "Karn Saheb <hello@karn.io>",
@@ -16,8 +17,13 @@
   },
   "types": "dist/Bonfire.d.ts",
   "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.14",
     "@types/node-schedule": "1.2.0",
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2",
+    "ts-node": "^3.2.1",
     "typescript": "^2.4.1"
   },
   "dependencies": {

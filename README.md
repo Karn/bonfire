@@ -2,7 +2,7 @@
 
 
 ## Bonfire
-Node job scheduling backed by Firebase RD.s
+Node job scheduling backed by Firebase RD.
 
 
 ###### FEATURES
@@ -83,4 +83,3 @@ Completed job with key: test_key
 
 ###### TODO
 - Autogenerate keys for jobs without keys.
-- Back to the future -- Handle timestamps from the past.
