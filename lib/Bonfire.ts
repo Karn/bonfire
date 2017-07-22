@@ -3,10 +3,7 @@ import { Job } from './model/Job'
 import * as Firebase from 'firebase-admin'
 import { Handlers } from './interfaces/Handlers'
 
-
-
 class Scheduler {
-
 
     /**
      * Maintains a list of local jobs.
@@ -184,10 +181,9 @@ class Scheduler {
 
         // Create job with the key in the jobItem and with the data being
         // the data from the JobItem.
-        jobSnapshot.ref.set(job.asJson())
-            .then(() => {
-                return job
-            })
+        await jobSnapshot.ref.set(job.asJson())
+
+        return job
     }
 
     /**
@@ -214,7 +210,5 @@ class Scheduler {
 
 export {
     Scheduler,
-    Job,
-    Handlers
-
+    Job
 }

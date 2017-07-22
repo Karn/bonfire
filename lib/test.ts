@@ -1,2 +1,0 @@
-import { Bonfire } from './Index'
-
