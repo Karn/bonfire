@@ -44,8 +44,8 @@ class Scheduler {
     /**
      * Returns a list of keys of pending jobs.
      */
-    public getPendingJobKeys(): Array<string> {
-        return Object.keys(this.jobList)
+    public getPendingJobCount(): number {
+        return this.jobList.size
     }
 
     /**
@@ -168,11 +168,7 @@ class Scheduler {
 
 
         let jobSnapshot: Firebase.database.DataSnapshot
-        try {
-            jobSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
-        } catch (error) {
-            console.log(error)
-        }
+        jobSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
         if (jobSnapshot.exists()) {
 
             // Check if we already have the job queued

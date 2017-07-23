@@ -2,15 +2,17 @@ import * as Chai from 'chai'
 import * as ChaiPromise from 'chai-as-promised'
 import { Bonfire } from './../../lib/Index'
 import * as Firebase from 'firebase-admin'
-import { Errors } from '../../lib/utils/Errors'
+import { Errors } from './../../lib/utils/Errors'
+import { ShadowFirebase } from './../resources/shadows/firebase/ShadowFirebase'
 
 describe('Bonfire Test Suite:', () => {
 
     Chai.use(ChaiPromise)
     const expect: Chai.ExpectStatic = Chai.expect
 
-    beforeAll(() => {
-
+    beforeAll(async () => {
+        const FirebaseApp = new ShadowFirebase()
+        this.ShadowFirebase = FirebaseApp
     })
 
     describe('BonfireJob Validation:', () => {
@@ -118,32 +120,103 @@ describe('Bonfire Test Suite:', () => {
     describe('Bonfire Scheduler:', () => {
 
         describe('Creating a scheduler:', () => {
-            it('should complete gracefully when a valid database ref is provided.')
+            it('should complete gracefully when a valid database ref is provided.', () => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+
+                new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+            })
 
             it('should raise an error when an invalid ref is provided.', () => {
                 expect(() => {
                     // Null is not a valid geofire ref.
-                    new Bonfire.Scheduler(null, (key: string, job: Bonfire.Job) => {
-                        console.log('Processing job with key: ' + key)
-                    })
+                    new Bonfire.Scheduler(null, (key: string, job: Bonfire.Job) => { })
                 }).to.throw()
             })
 
-            it('should queue any jobs that already exist as children in the ref provided.')
+            it('should queue any jobs that already exist as children in the ref provided.', async (done) => {
+
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+
+                await FirebaseApp.database().ref('jobs').set({
+                    'test_key': {
+                        'id': 'test_key_1',
+                        'type': 'TYPE_SIMPLE_JOB',
+                        'scheduled_date_time': new Date(Date.now() + 360000).getTime()
+                    }
+                }, () => { })
+
+                const scheduler: Bonfire.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+
+                await new Promise<any>(resolve => setTimeout(resolve, 2000))
+
+                console.log(scheduler.getPendingJobCount())
+
+                done()
+            })
         })
 
         describe('Looking up the root node ref:', () => {
-            it('should return the same ref that is used to create the instance')
+            it('should return the same ref that is used to create the instance', () => {
+
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+
+                const ref: Firebase.database.Reference = FirebaseApp.database().ref('jobs')
+
+                const scheduler: Bonfire.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+
+                expect(scheduler.getRef().toString()).to.equal(ref.toString())
+            })
         })
 
         describe('Scheduling a job:', () => {
-            it('should raise an error when a jobitem with an date/time in the past is provided')
+            beforeAll(() => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                this.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+            })
+
+            it('should raise an error when a jobitem with an date/time in the past is provided', () => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                const Scheduler: Bonfire.Scheduler = this.Scheduler
+
+                return expect(Scheduler.schedule(new Bonfire.Job(
+                    'test_key',
+                    'TYPE_SIMPLE_JOB',
+                    new Date(Date.now() - 360000)
+                ))).to.eventually.be.rejectedWith(Errors.SCHEDULED_IN_PAST)
+            })
             it('should return the existing job if the job already exists within the firebase RD')
-            it('should create, queue and return the same BonfireJob if there was no existing key')
+            it('should create, queue and return the same BonfireJob if there was no existing key', () => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                const Scheduler: Bonfire.Scheduler = this.Scheduler
+
+                return expect(FirebaseApp.database().ref('jobs').once('value')).to.eventually.be.fulfilled
+
+                // let job: Bonfire.Job = await Scheduler.schedule(new Bonfire.Job(
+                //     'test_key',
+                //     'TYPE_SIMPLE_JOB',
+                //     new Date(Date.now() + 360000)
+                // ))
+
+                // expect(job).to.not.be.null
+
+                // done()
+            })
         })
 
         describe('Cancelling a job:', () => {
-            it('should complete gracefully if the key does not exist.')
+
+            beforeAll(() => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                this.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+            })
+
+            it('should complete gracefully if the key does not exist.', () => {
+
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                const Scheduler: Bonfire.Scheduler = this.Scheduler
+
+                return expect(Scheduler.cancel('test_key')).to.eventually.be.fulfilled
+            })
             it('remove and cancel an existing job when provided a key that exists')
         })
 
