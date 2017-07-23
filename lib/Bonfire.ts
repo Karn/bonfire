@@ -171,7 +171,7 @@ class Scheduler {
         if (jobSnapshot.exists()) {
 
             // Check if we already have the job queued
-            if (!this.jobList.has(job.getKey())) {
+            if (this.jobList.has(job.getKey())) {
                 // The job already exists; nothing to do here.
                 return Job.fromJson(jobSnapshot.val())
             }

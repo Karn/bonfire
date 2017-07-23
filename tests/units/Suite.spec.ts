@@ -183,7 +183,6 @@ describe('Bonfire Test Suite:', () => {
                     new Date(Date.now() - 360000)
                 ))).to.eventually.be.rejectedWith(Errors.SCHEDULED_IN_PAST)
             })
-            it('should return the existing job if the job already exists within the firebase RD')
             it('should create, queue and return the same BonfireJob if there was no existing key', async () => {
                 const FirebaseApp: ShadowFirebase = this.ShadowFirebase
                 const Scheduler: Bonfire.Scheduler = this.Scheduler
@@ -200,6 +199,32 @@ describe('Bonfire Test Suite:', () => {
 
                 expect(jobRes).to.equal(job)
 
+                expect(Scheduler.getPendingJobCount()).to.equal(1)
+            })
+            it('should return the existing job if the job already exists within the firebase RD', async () => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                const Scheduler: Bonfire.Scheduler = this.Scheduler
+
+                const job: Bonfire.Job = new Bonfire.Job(
+                    'test_key_1',
+                    'TYPE_SIMPLE_JOB',
+                    new Date(Date.now() + 360000)
+                )
+
+                const jobTwo: Bonfire.Job = new Bonfire.Job(
+                    'test_key_1',
+                    'TYPE_SIMPLE_JOB',
+                    new Date(Date.now() + 720000)
+                )
+
+                expect(Scheduler.getPendingJobCount()).to.equal(0)
+
+                let jobRes: Bonfire.Job = await Scheduler.schedule(job)
+                expect(jobRes).to.equal(job)
+                expect(Scheduler.getPendingJobCount()).to.equal(1)
+
+                let jobResTwo: Bonfire.Job = await Scheduler.schedule(jobTwo)
+                expect(jobResTwo).to.not.equal(jobTwo)
                 expect(Scheduler.getPendingJobCount()).to.equal(1)
             })
         })
