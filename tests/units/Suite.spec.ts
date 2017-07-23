@@ -4,6 +4,7 @@ import { Bonfire } from './../../lib/Index'
 import * as Firebase from 'firebase-admin'
 import { Errors } from './../../lib/utils/Errors'
 import { ShadowFirebase } from './../resources/shadows/firebase/ShadowFirebase'
+import { expect } from 'chai';
 
 describe('Bonfire Test Suite:', () => {
 
@@ -231,23 +232,70 @@ describe('Bonfire Test Suite:', () => {
 
         describe('Cancelling a job:', () => {
 
-            beforeAll(() => {
-                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+            beforeEach(() => {
+                const FirebaseApp: ShadowFirebase = new ShadowFirebase()
+                this.ShadowFirebase = FirebaseApp
                 this.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
             })
 
             it('should complete gracefully if the key does not exist.', () => {
-
                 const FirebaseApp: ShadowFirebase = this.ShadowFirebase
                 const Scheduler: Bonfire.Scheduler = this.Scheduler
 
                 return expect(Scheduler.cancel('test_key')).to.eventually.be.fulfilled
             })
-            it('remove and cancel an existing job when provided a key that exists')
+            it('remove and cancel an existing job when provided a key that exists', async () => {
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                const Scheduler: Bonfire.Scheduler = this.Scheduler
+
+                const job: Bonfire.Job = new Bonfire.Job(
+                    'test_key',
+                    'TYPE_SIMPLE_JOB',
+                    new Date(Date.now() + 360000)
+                )
+
+                expect(Scheduler.getPendingJobCount()).to.equal(0)
+
+                let jobRes: Bonfire.Job = await Scheduler.schedule(job)
+
+                expect(jobRes).to.equal(job)
+
+                expect(Scheduler.getPendingJobCount()).to.equal(1)
+
+                await Scheduler.cancel('test_key')
+
+                expect(Scheduler.getPendingJobCount()).to.equal(0)
+            })
         })
 
         describe('Job completion handler:', () => {
-            it('should be invoked when a one-time job is executed')
+            beforeEach(() => {
+                const FirebaseApp: ShadowFirebase = new ShadowFirebase()
+                this.ShadowFirebase = FirebaseApp
+            })
+
+            it('should be invoked when a one-time job is executed', async () => {
+
+                const queue: Array<string> = new Array<string>()
+
+                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+                const Scheduler: Bonfire.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => {
+                    queue.push(key)
+                })
+
+                expect(queue).to.have.length(0)
+
+                await Scheduler.schedule(new Bonfire.Job(
+                    'test_key',
+                    'TYPE_SIMPLE_JOB',
+                    new Date(Date.now() + 1000)
+                ))
+
+                await new Promise<any>(resolve => setTimeout(resolve, 2000))
+
+                expect(queue).to.have.length(1)
+                expect(queue[0]).to.equal('test_key')
+            })
         })
     })
 
