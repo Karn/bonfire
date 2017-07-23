@@ -1,3 +1,5 @@
+import { Errors } from '../utils/Errors'
+
 export class Job {
 
     private key: string = null
@@ -16,11 +18,11 @@ export class Job {
     public constructor(key: string, type: string, datetime: Date) {
 
         if (!key || key.length == 0) {
-            throw new Error('Invalid key provided.')
+            throw new Error(Errors.INVALID_JOB_KEY)
         }
 
         if (!type || type.length == 0) {
-            throw new Error('The job type must be a valid string and with a length greater than 0.')
+            throw new Error(Errors.INVALID_JOB_TYPE)
         }
 
         this.key = key

@@ -25,17 +25,23 @@
   "types": "dist/Index.d.ts",
   "devDependencies": {
     "@types/chai": "^4.0.1",
+    "@types/chai-as-promised": "^0.0.31",
     "@types/mocha": "^2.2.41",
+    "@types/nock": "^8.2.1",
     "@types/node": "^8.0.14",
     "@types/node-schedule": "1.2.0",
+    "@types/sinon": "^2.3.3",
     "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
     "coveralls": "^2.13.1",
     "mocha": "^3.4.2",
+    "nock": "^9.0.14",
     "ts-node": "^3.2.1",
     "typescript": "^2.4.1"
   },
   "dependencies": {
     "firebase-admin": "5.0.1",
-    "node-schedule": "1.2.3"
+    "node-schedule": "1.2.3",
+    "sinon": "^2.3.8"
   }
 }

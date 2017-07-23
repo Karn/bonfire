@@ -2,7 +2,13 @@
 # yarn lockfile v1
 
 
-"@types/chai@^4.0.1":
+"@types/chai-as-promised@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@types/chai-as-promised/-/chai-as-promised-0.0.31.tgz#e1e905ea6d971dafcad36560c8f1f7a7d690c5e5"
+  dependencies:
+    "@types/chai" "*"
+
+"@types/chai@*", "@types/chai@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.1.tgz#37fea779617cfec3fd2b19a0247e8bbdd5133bf6"
 
@@ -16,6 +22,12 @@
   version "2.2.41"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.41.tgz#e27cf0817153eb9f2713b2d3f6c68f1e1c3ca608"
 
+"@types/nock@^8.2.1":
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/@types/nock/-/nock-8.2.1.tgz#1fbe5bdecb943c109a778553fa4d2401cb9394b4"
+  dependencies:
+    "@types/node" "*"
+
 "@types/node-schedule@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/node-schedule/-/node-schedule-1.2.0.tgz#fcd16bb17d18eda118d5e3c4597d2f0e9cde897e"
@@ -25,6 +37,10 @@
 "@types/node@*", "@types/node@^8.0.14":
   version "8.0.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.14.tgz#4a19dc6bb61d16c01cbadc7b30ac23518fff176b"
+
+"@types/sinon@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-2.3.3.tgz#1f20b96f954b4997a09c1c0a20264aaba6b00147"
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -117,6 +133,20 @@ caseless@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
 
+chai-as-promised@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/chai-as-promised/-/chai-as-promised-7.1.1.tgz#08645d825deb8696ee61725dbf590c012eb00ca0"
+  dependencies:
+    check-error "^1.0.2"
+
+"chai@>=1.9.2 <4.0.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/chai/-/chai-3.5.0.tgz#4d02637b067fe958bdbfdd3a40ec56fef7373247"
+  dependencies:
+    assertion-error "^1.0.1"
+    deep-eql "^0.1.3"
+    type-detect "^1.0.0"
+
 chai@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.1.0.tgz#331a0391b55c3af8740ae9c3b7458bc1c3805e6d"
@@ -146,7 +176,7 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-check-error@^1.0.1:
+check-error@^1.0.1, check-error@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
 
@@ -205,17 +235,27 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@2.6.0:
+debug@2.6.0, debug@^2.2.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
     ms "0.7.2"
+
+deep-eql@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
+  dependencies:
+    type-detect "0.1.1"
 
 deep-eql@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-2.0.2.tgz#b1bac06e56f0a76777686d50c9feb75c2ed7679a"
   dependencies:
     type-detect "^3.0.0"
+
+deep-equal@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
 define-properties@^1.1.1:
   version "1.1.2"
@@ -291,6 +331,12 @@ form-data@~2.1.1:
     asynckit "^0.4.0"
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
+
+formatio@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/formatio/-/formatio-1.2.0.tgz#f3b2167d9068c4698a8d51f4f760a39a54d818eb"
+  dependencies:
+    samsam "1.x"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -413,6 +459,10 @@ is-typedarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
 
+isarray@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
+
 isemail@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/isemail/-/isemail-1.2.0.tgz#be03df8cc3e29de4d2c5df6501263f1fa4595e9a"
@@ -445,7 +495,7 @@ json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
 
-json-stringify-safe@~5.0.1:
+json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
@@ -548,9 +598,17 @@ lodash.once@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
 
+lodash@~4.17.2:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
 log-driver@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/log-driver/-/log-driver-1.2.5.tgz#7ae4ec257302fd790d557cb10c97100d857b0056"
+
+lolex@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-1.6.0.tgz#3a9a0283452a47d7439e72731b9e07d7386e49f6"
 
 long-timeout@0.1.1:
   version "0.1.1"
@@ -584,7 +642,7 @@ minimist@1.2.0, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-mkdirp@0.5.1, mkdirp@^0.5.1:
+mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -624,6 +682,24 @@ ms@^0.7.1:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
 
+native-promise-only@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/native-promise-only/-/native-promise-only-0.8.1.tgz#20a318c30cb45f71fe7adfbf7b21c99c1472ef11"
+
+nock@^9.0.14:
+  version "9.0.14"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-9.0.14.tgz#2211550253173ce298bcd89fca825e83813ca72b"
+  dependencies:
+    chai ">=1.9.2 <4.0.0"
+    debug "^2.2.0"
+    deep-equal "^1.0.0"
+    json-stringify-safe "^5.0.1"
+    lodash "~4.17.2"
+    mkdirp "^0.5.0"
+    propagate "0.4.0"
+    qs "^6.0.2"
+    semver "^5.3.0"
+
 node-forge@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.1.tgz#9da611ea08982f4b94206b3beb4cc9665f20c300"
@@ -654,6 +730,12 @@ path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
 
+path-to-regexp@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
+  dependencies:
+    isarray "0.0.1"
+
 pathval@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.0.tgz#b942e6d4bde653005ef6b71361def8727d0645e0"
@@ -668,11 +750,15 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
+propagate@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/propagate/-/propagate-0.4.0.tgz#f3fcca0a6fe06736a7ba572966069617c130b481"
+
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-qs@~6.3.0:
+qs@^6.0.2, qs@~6.3.0:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.2.tgz#e75bd5f6e268122a2a0e0bda630b2550c166502c"
 
@@ -704,6 +790,27 @@ request@2.79.0:
 safe-buffer@^5.0.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
+
+samsam@1.x, samsam@^1.1.3:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.2.1.tgz#edd39093a3184370cb859243b2bdf255e7d8ea67"
+
+semver@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
+
+sinon@^2.3.8:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-2.3.8.tgz#31de06fed8fba3a671e576dd96d0a5863796f25c"
+  dependencies:
+    diff "^3.1.0"
+    formatio "1.2.0"
+    lolex "^1.6.0"
+    native-promise-only "^0.8.1"
+    path-to-regexp "^1.7.0"
+    samsam "^1.1.3"
+    text-encoding "0.6.4"
+    type-detect "^4.0.0"
 
 sntp@1.x.x:
   version "1.0.9"
@@ -777,6 +884,10 @@ supports-color@^4.0.0:
   dependencies:
     has-flag "^2.0.0"
 
+text-encoding@0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
+
 topo@1.x.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/topo/-/topo-1.1.0.tgz#e9d751615d1bb87dc865db182fa1ca0a5ef536d5"
@@ -818,6 +929,14 @@ tunnel-agent@~0.4.1:
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
+
+type-detect@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-0.1.1.tgz#0ba5ec2a885640e470ea4e8505971900dac58822"
+
+type-detect@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-1.0.0.tgz#762217cc06db258ec48908a1298e8b95121e8ea2"
 
 type-detect@^3.0.0:
   version "3.0.0"
