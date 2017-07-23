@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "yarn build",
     "build": "tsc",
-    "test": "mocha -r ts-node/register ./test/units/Suite.ts"
+    "test": "jest"
   },
   "repository": "https://github.com/Karn/bonfire.git",
   "author": "Karn Saheb <hello@karn.io>",
@@ -26,22 +26,31 @@
   "devDependencies": {
     "@types/chai": "^4.0.1",
     "@types/chai-as-promised": "^0.0.31",
-    "@types/mocha": "^2.2.41",
-    "@types/nock": "^8.2.1",
+    "@types/jest": "^20.0.4",
     "@types/node": "^8.0.14",
     "@types/node-schedule": "1.2.0",
-    "@types/sinon": "^2.3.3",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^2.13.1",
-    "mocha": "^3.4.2",
-    "nock": "^9.0.14",
+    "jest": "^20.0.4",
+    "ts-jest": "^20.0.7",
     "ts-node": "^3.2.1",
     "typescript": "^2.4.1"
   },
   "dependencies": {
     "firebase-admin": "5.0.1",
-    "node-schedule": "1.2.3",
-    "sinon": "^2.3.8"
+    "node-schedule": "1.2.3"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }

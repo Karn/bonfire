@@ -1,6 +1,5 @@
 import * as Chai from 'chai'
 import * as ChaiPromise from 'chai-as-promised'
-import * as Mocha from 'mocha'
 import { Bonfire } from './../../lib/Index'
 import * as Firebase from 'firebase-admin'
 import { ShadowFirebase } from './../resources/shadows/firebase/ShadowFirebase'
@@ -115,7 +114,7 @@ describe('Bonfire Test Suite:', () => {
 
     describe('Bonfire Scheduler:', () => {
 
-        before(() => {
+        beforeAll(() => {
             // Create an instance of the Shadow Firebase object which allows for objects to be mocked.
             this.ShadowFirebase = new ShadowFirebase()
         })
@@ -162,7 +161,7 @@ describe('Bonfire Test Suite:', () => {
 
         describe('Scheduling a job:', () => {
 
-            before(() => {
+            beforeAll(() => {
                 const ShadowFirebase: ShadowFirebase = this.ShadowFirebase
 
                 // Create a single jobScheduler object.
@@ -189,7 +188,7 @@ describe('Bonfire Test Suite:', () => {
 
         describe('Cancelling a job:', () => {
 
-            before(() => {
+            beforeAll(() => {
                 const ShadowFirebase: ShadowFirebase = this.ShadowFirebase
 
                 // Create a single jobScheduler object.
