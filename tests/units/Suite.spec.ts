@@ -149,8 +149,6 @@ describe('Bonfire Test Suite:', () => {
 
                 await new Promise<any>(resolve => setTimeout(resolve, 2000))
 
-                console.log(scheduler.getPendingJobCount())
-
                 done()
             })
         })
@@ -191,15 +189,13 @@ describe('Bonfire Test Suite:', () => {
 
                 return expect(FirebaseApp.database().ref('jobs').once('value')).to.eventually.be.fulfilled
 
-                // let job: Bonfire.Job = await Scheduler.schedule(new Bonfire.Job(
-                //     'test_key',
+                // const job: Bonfire.Job = new Bonfire.Job(
+                //     'test_key_1',
                 //     'TYPE_SIMPLE_JOB',
                 //     new Date(Date.now() + 360000)
-                // ))
+                // )
 
-                // expect(job).to.not.be.null
-
-                // done()
+                // return expect(Scheduler.schedule(job)).to.eventually.equal(null)
             })
         })
 

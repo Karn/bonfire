@@ -13,17 +13,6 @@ class ShadowFirebase {
         })
 
         this.admin.database().setMockData({ jobs: 'jobs' })
-
-        // try {
-        //     this.admin.database()
-        //         .ref('jobs')
-        //         .on('child_added', (dataSnapshot: Firebase.database.DataSnapshot) => {
-        //             console.log(dataSnapshot.ref.toString())
-        //             console.log(dataSnapshot.val())
-        //         })
-        // } catch (error) {
-        //     console.log('Error' + error.message)
-        // }
     }
 
     public database(): Firebase.database.Database {

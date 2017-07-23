@@ -166,7 +166,6 @@ class Scheduler {
         // refresh, we enable this variable so that we don't waste cycles.
         let shouldCreateLocallyOnly: boolean = false
 
-
         let jobSnapshot: Firebase.database.DataSnapshot
         jobSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
         if (jobSnapshot.exists()) {
