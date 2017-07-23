@@ -42,7 +42,7 @@ class Scheduler {
     }
 
     /**
-     * Returns a list of keys of pending jobs.
+     * Returns a count of pending jobs.
      */
     public getPendingJobCount(): number {
         return this.jobList.size

@@ -12,7 +12,7 @@ class ShadowFirebase {
             databaseUrl: Constants.DEFAULT_DATABASE_URL,
         })
 
-        this.admin.database().setMockData({ jobs: 'jobs' })
+        this.admin.database().setMockData({ foo: 'bar' })
     }
 
     public database(): Firebase.database.Database {

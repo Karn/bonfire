@@ -167,8 +167,9 @@ describe('Bonfire Test Suite:', () => {
         })
 
         describe('Scheduling a job:', () => {
-            beforeAll(() => {
-                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
+            beforeEach(() => {
+                const FirebaseApp: ShadowFirebase = new ShadowFirebase()
+                this.ShadowFirebase = FirebaseApp
                 this.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
             })
 
@@ -183,19 +184,23 @@ describe('Bonfire Test Suite:', () => {
                 ))).to.eventually.be.rejectedWith(Errors.SCHEDULED_IN_PAST)
             })
             it('should return the existing job if the job already exists within the firebase RD')
-            it('should create, queue and return the same BonfireJob if there was no existing key', () => {
+            it('should create, queue and return the same BonfireJob if there was no existing key', async () => {
                 const FirebaseApp: ShadowFirebase = this.ShadowFirebase
                 const Scheduler: Bonfire.Scheduler = this.Scheduler
 
-                return expect(FirebaseApp.database().ref('jobs').once('value')).to.eventually.be.fulfilled
+                const job: Bonfire.Job = new Bonfire.Job(
+                    'test_key_1',
+                    'TYPE_SIMPLE_JOB',
+                    new Date(Date.now() + 360000)
+                )
 
-                // const job: Bonfire.Job = new Bonfire.Job(
-                //     'test_key_1',
-                //     'TYPE_SIMPLE_JOB',
-                //     new Date(Date.now() + 360000)
-                // )
+                expect(Scheduler.getPendingJobCount()).to.equal(0)
 
-                // return expect(Scheduler.schedule(job)).to.eventually.equal(null)
+                let jobRes: Bonfire.Job = await Scheduler.schedule(job)
+
+                expect(jobRes).to.equal(job)
+
+                expect(Scheduler.getPendingJobCount()).to.equal(1)
             })
         })
 
