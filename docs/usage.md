@@ -14,7 +14,7 @@ let ref: Firebase.database.reference = Firebase.database().ref('jobs')
 
 // Pass the newly extracted reference to the Bonfire object. This object can
 // then be used as desired.
-let jobScheduler: Bonfire.Scheduler = new Bonfire.Scheduler(ref, (key: String, job: BonfireJob) => {
+let jobScheduler: Bonfire.Scheduler = new Bonfire.Scheduler(ref, (key: String, job: Bonfire.Job) => {
     // Process completed events here.
     console.log('Completed job with key: ' + key)
 })
@@ -23,7 +23,7 @@ let jobScheduler: Bonfire.Scheduler = new Bonfire.Scheduler(ref, (key: String, j
 Now you're probably wondering, how do I schedule my first job...? Well, it's actually quite simple.
 
 ```javascript
-let job: BonfireJob = new BonfireJob(
+let job: Bonfire.Job = new Bonfire.Job(
     // Setting the key is important, it serves as the key/id of the job, and
     // will help as an identification mechaism.
     'test_key',

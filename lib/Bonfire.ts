@@ -2,13 +2,14 @@ import * as NodeSchedule from 'node-schedule'
 import { Job } from './model/Job'
 import * as Firebase from 'firebase-admin'
 import { Handlers } from './interfaces/Handlers'
+import { Errors } from './utils/Errors'
 
 class Scheduler {
 
     /**
      * Maintains a list of local jobs.
      */
-    public jobList: Map<string, NodeSchedule.Job>
+    private jobList: Map<string, NodeSchedule.Job>
 
     private bonfireRef: Firebase.database.Reference
 
@@ -19,7 +20,7 @@ class Scheduler {
      */
     public constructor(reference: Firebase.database.Reference, jobCompletionHandler: Handlers.JobCompletionHandler) {
         if (!reference) {
-            throw new Error('Bonfire: Attempt to instantiate with invalid reference.')
+            throw new Error(Errors.INVALID_ROOT_REFERENCE)
         }
 
         // Store the Firebase Reference so that it can be used at a later time.
@@ -38,6 +39,13 @@ class Scheduler {
      */
     public getRef(): Firebase.database.Reference {
         return this.bonfireRef
+    }
+
+    /**
+     * Returns a count of pending jobs.
+     */
+    public getPendingJobCount(): number {
+        return this.jobList.size
     }
 
     /**
@@ -148,20 +156,22 @@ class Scheduler {
      * @return  A Promise which resolves with the given job.
      */
     public async schedule(job: Job): Promise<Job> {
+
         // Ensure that the job is in the future.
         if (job.getScheduledDateTime().getTime() < Date.now()) {
-            throw new Error('Cannot schedule a job to complete in a time that is the past.')
+            throw new Error(Errors.SCHEDULED_IN_PAST)
         }
 
         // In the event that we are starting a job as a result of a server
         // refresh, we enable this variable so that we don't waste cycles.
         let shouldCreateLocallyOnly: boolean = false
 
-        let jobSnapshot: Firebase.database.DataSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
+        let jobSnapshot: Firebase.database.DataSnapshot
+        jobSnapshot = await this.bonfireRef.child(job.getKey()).once('value')
         if (jobSnapshot.exists()) {
 
             // Check if we already have the job queued
-            if (!this.jobList.has(job.getKey())) {
+            if (this.jobList.has(job.getKey())) {
                 // The job already exists; nothing to do here.
                 return Job.fromJson(jobSnapshot.val())
             }
