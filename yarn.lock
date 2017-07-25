@@ -791,9 +791,9 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase-admin-mock@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/firebase-admin-mock/-/firebase-admin-mock-0.0.6.tgz#56c19583a9a84476067b772b9b86c59b58896b29"
+firebase-admin-mock@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/firebase-admin-mock/-/firebase-admin-mock-0.0.7.tgz#80b061c3e8f61a1fd13a95e4ba81b09d98156721"
   dependencies:
     email-validator "^1.0.7"
     immutable "^3.8.1"

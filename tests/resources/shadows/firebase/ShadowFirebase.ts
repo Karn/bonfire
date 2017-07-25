@@ -1,4 +1,4 @@
-import { AdminRoot, constants as Constants } from 'firebase-admin-mock'
+import { AdminRoot, defaultConfig as DefaultConfig } from 'firebase-admin-mock'
 import * as Firebase from 'firebase-admin'
 
 class ShadowFirebase {
@@ -8,11 +8,9 @@ class ShadowFirebase {
     public constructor() {
         this.admin = new AdminRoot()
 
-        this.admin.initializeApp({
-            databaseUrl: Constants.DEFAULT_DATABASE_URL,
-        })
+        this.admin.initializeApp(DefaultConfig)
 
-        this.admin.database().setMockData({ foo: 'bar' })
+        //this.admin.database().setMockData({ foo: 'bar' })
     }
 
     public database(): Firebase.database.Database {
