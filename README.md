@@ -28,11 +28,11 @@ It is recommended that you use `--exact` as the library is constantly evolving a
 
 ```sh
 # Via Yarn:
-$ yarn add @karn/bonfire --exact
+$ yarn add bonfire --exact
 # or via NPM:
-$ npm install @karn/bonfire --save-exact
+$ npm install bonfire --save-exact
 ```
 
 ```javascript
-import { Bonfire } from '@karn/bonfire'
+import { Bonfire } from 'bonfire'
 ```

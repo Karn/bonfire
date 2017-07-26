@@ -6,7 +6,7 @@ Start by providing a reference to the Firebase key within your Firebase Database
 // Import the Firebase Admin SDK
 import * as Firebase from 'firebase-admin'
 // Import the Bonfire library.
-import { Bonfire } from '@karn/bonfire'
+import { Bonfire } from 'bonfire'
 
 // Grab a reference to the node of your choosing. For this demo, we'll use the
 // 'jobs' key at the root level.
