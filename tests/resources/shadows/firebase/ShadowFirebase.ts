@@ -9,8 +9,6 @@ class ShadowFirebase {
         this.admin = new AdminRoot()
 
         this.admin.initializeApp(DefaultConfig)
-
-        //this.admin.database().setMockData({ foo: 'bar' })
     }
 
     public database(): Firebase.database.Database {
