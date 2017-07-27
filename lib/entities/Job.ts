@@ -1,11 +1,14 @@
 import { Errors } from '../utils/Errors'
+import { ITask } from '../descriptors/ITask';
 
-export class Job {
+class Job implements ITask {
 
-    private key: string = null
-    private type: string = null
-    private scheduledDateTime: Date = null
-    private payload: any = null
+    public static readonly TASK_TAG: string = 'TASK_TAG_JOB'
+
+    private key: string
+    private type: string
+    private scheduledDateTime: Date
+    private payload: any
 
     /**
      * Create the basic components of a Job.
@@ -31,27 +34,6 @@ export class Job {
     }
 
     /**
-     * Construct a BonfireJob object from a JSON object.
-     * 
-     * @param data  Key-value pairs representing fields that can be mapped to a
-     *              job.
-     * @return  A BonfireJob object corresponding to the JSON object provided. 
-     */
-    public static fromJson(data: any): Job {
-        let job: Job = new Job(
-            data['id'],
-            data['type'],
-            new Date(data['scheduled_date_time'])
-        )
-
-        if (data['payload']) {
-            job.setPayload(data['payload'])
-        }
-
-        return job
-    }
-
-    /**
      * A key that uniquely identifies this object.
      * 
      * @return  Key/ID associated with this object.
@@ -61,12 +43,12 @@ export class Job {
     }
 
     /**
-     * Set/update key that uniquely identifies this object.
+     * Identifies the type of task represented by this class.
      * 
-     * @param key   A string that will be used as the Key/ID for this object.
+     * @return  A string identifying this Task.
      */
-    public setKey(key: string) {
-        this.key = key
+    public getTag(): string {
+        return Job.TASK_TAG
     }
 
     /**
@@ -82,30 +64,12 @@ export class Job {
     }
 
     /**
-     * Set/update the type of job described by this object.
-     * 
-     * @param type  A string representation of the type.
-     */
-    public setType(type: string): void {
-        this.type = type
-    }
-
-    /**
      * Returns the time at which this job will be executed.
      * 
      * @return  A Date object representing the time of execution.
      */
     public getScheduledDateTime(): Date {
         return this.scheduledDateTime
-    }
-
-    /**
-     * Set/update the time at which this job will be executed.
-     * 
-     * @param date  The time of execution as a Date object.
-     */
-    public setScheduledDateTime(date: Date): void {
-        this.scheduledDateTime = date
     }
 
     /**
@@ -127,6 +91,27 @@ export class Job {
     }
 
     /**
+     * Construct a BonfireJob object from a JSON object.
+     * 
+     * @param data  Key-value pairs representing fields that can be mapped to a
+     *              job.
+     * @return  A BonfireJob object corresponding to the JSON object provided. 
+     */
+    public static fromJson(data: any): Job {
+        let job: Job = new Job(
+            data['id'],
+            data['type'],
+            new Date(data['scheduled_date_time'])
+        )
+
+        if (data['payload']) {
+            job.setPayload(data['payload'])
+        }
+
+        return job
+    }
+
+    /**
      * Construct a JSON representation of this object; aids in the
      * 'serialization' when saving for redundancy.
      * 
@@ -139,10 +124,15 @@ export class Job {
             'scheduled_date_time': this.scheduledDateTime.getTime()
         }
 
-        if (this.payload) {
-            obj['payload'] = JSON.stringify(this.payload)
-        }
+        // Return right away if there is no payload
+        if (!this.payload) return obj
 
+        // Attach payload if exists
+        obj['payload'] = JSON.stringify(this.payload)
         return obj
     }
+}
+
+export {
+    Job
 }

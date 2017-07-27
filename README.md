@@ -2,7 +2,7 @@
 
 
 ## Bonfire
-Node job scheduling backed by Firebase RD.
+Simple Node job scheduling backed by Firebase RD.
 
 ###### STATUS
 

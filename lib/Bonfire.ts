@@ -1,16 +1,20 @@
 import * as NodeSchedule from 'node-schedule'
-import { Job } from './model/Job'
+import { Job } from './entities/Job';
 import * as Firebase from 'firebase-admin'
-import { Handlers } from './interfaces/Handlers'
+import { Handlers } from './utils/Handlers'
 import { Errors } from './utils/Errors'
+import { IScheduler } from './descriptors/IScheduler';
 
-class Scheduler {
+class Scheduler implements IScheduler {
 
     /**
      * Maintains a list of local jobs.
      */
     private jobList: Map<string, NodeSchedule.Job>
 
+    /**
+     * A reference to the firebase node where redundancy data will be stored.
+     */
     private bonfireRef: Firebase.database.Reference
 
     private jobCompletionHandler: Handlers.JobCompletionHandler
@@ -121,7 +125,7 @@ class Scheduler {
             this.jobCompletionHandler(key, Job.fromJson(jobSnapshot.val()))
 
             // We then delete the job from the referenced node.
-            jobSnapshot.ref.remove()
+            await jobSnapshot.ref.remove()
         }
     }
 
@@ -145,6 +149,23 @@ class Scheduler {
 
         // Add the new job to the list of jobs.
         this.jobList.set(job.getKey(), scheduledJob);
+    }
+
+    /**
+     * Fetch a Job based on the key.
+     * 
+     * @param key The key associated with the reference.
+     */
+    public async get(key: string): Promise<Job> {
+        // Attempt to lookup the Job.
+        let jobSnapshot: Firebase.database.DataSnapshot
+        jobSnapshot = await this.bonfireRef.child(key).once('value')
+
+        if (!jobSnapshot.exists()) {
+            return null
+        }
+
+        return Job.fromJson(jobSnapshot.val())
     }
 
     /**
@@ -210,10 +231,11 @@ class Scheduler {
 
         await this.bonfireRef.child(key).remove()
 
-        // Cancel keys
-        let job: NodeSchedule.Job = this.jobList.get(key)
-        job.cancel()
+        // Fetch local copy.
+        let job: NodeSchedule.Job | undefined = this.jobList.get(key)
 
+        // Cancel keys
+        if (job) job.cancel()
         this.jobList.delete(key)
     }
 }
