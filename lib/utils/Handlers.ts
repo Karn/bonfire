@@ -1,8 +1,8 @@
-import { Job } from './../model/Job'
+import { ITask } from '../descriptors/ITask'
 
 export namespace Handlers {
 
-    export type JobCompletionHandler = (key: string, job: Job) => void
-    export type JobCreatedResult = (job: Job) => void
+    export type JobCompletionHandler = (key: string, job: ITask) => void
+    export type JobCreatedResult = (job: ITask) => void
     export type ErrorResult = (error: Error) => void
 }
