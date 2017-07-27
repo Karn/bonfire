@@ -28,33 +28,12 @@ class Scheduler implements IScheduler {
         this.jobList = new Map<string, NodeSchedule.Job>()
 
         // Reque the exsting tasks.
-        this.queueExisting()
-    }
-
-
-    /**
-     * Process tasks that may have not been started due to a server restart.
-     * 
-     * @return  A Promise which resolves when all existing tasks have been
-     *          queued.
-     */
-    public async queueExisting(): Promise<void> {
-        // Fetch all the existing tasks
-        const tasks: Array<ITask> = await this.redundancyService.getAll()
-
-        tasks.forEach((task: ITask) => {
-            // Ensure that the job is in the future.
-            if (task.getScheduledDateTime().getTime() < Date.now()) {
-                // Cannot schedule a job to complete in a time that no
-                // longer exists. We notify on the callback so that the
-                // case can be handled.
-                this.jobCompletionHandler(task.getKey(), task)
-                this.redundancyService.remove(task.getKey())
-            } else {
-                // Delegate the job item to the actual job scheduler.
-                this.scheduleJob(task)
-            }
-        });
+        this.redundancyService.getAll().then((tasks: Array<ITask>) => {
+            this.queueExisting(tasks)
+        }).catch((error: Error) => {
+            // Error ocurred while fetching exisiting jobs. Re-throw
+            throw error
+        })
     }
 
     /**
@@ -110,12 +89,45 @@ class Scheduler implements IScheduler {
         this.jobList.set(job.getKey(), scheduledJob);
     }
 
+
+    /**
+     * Process tasks that may have not been started due to a server restart.
+     * 
+     * @param tasks A collection of tasks that are to be queued.
+     * @return  A Promise which resolves when all existing tasks have been
+     *          queued.
+     */
+    public async queueExisting(tasks: Array<ITask>): Promise<void> {
+        // If there are no existing tasks, theres nothing to do.
+        if (!tasks) {
+            return
+        }
+
+        tasks.forEach((task: ITask) => {
+            // Ensure that the job is in the future.
+            if (task.getScheduledDateTime().getTime() < Date.now()) {
+                // Cannot schedule a job to complete in a time that no
+                // longer exists. We notify on the callback so that the
+                // case can be handled.
+                this.jobCompletionHandler(task.getKey(), task)
+                this.redundancyService.remove(task.getKey())
+            } else {
+                // Delegate the job item to the actual job scheduler.
+                this.scheduleJob(task)
+            }
+        });
+    }
+
     /**
      * 
      * @see IScheduler#get(string)
      */
     public async get(key: string): Promise<ITask> {
         return await this.redundancyService.fetch(key)
+    }
+
+    public getPendingCount(): number {
+        return this.jobList.size
     }
 
     public async schedule(task: ITask): Promise<ITask> {

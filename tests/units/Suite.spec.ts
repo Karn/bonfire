@@ -4,7 +4,7 @@ import { Bonfire } from './../../lib/Index'
 import * as Firebase from 'firebase-admin'
 import { Errors } from './../../lib/utils/Errors'
 import { ShadowFirebase } from './../resources/shadows/firebase/ShadowFirebase'
-import { expect } from 'chai';
+import { ITask } from '../../lib/descriptors/ITask';
 
 describe('Bonfire Test Suite:', () => {
 
@@ -92,6 +92,7 @@ describe('Bonfire Test Suite:', () => {
 
                 const jobData: any = {
                     'id': 'test_key',
+                    'tag': 'TASK_TAG_JOB',
                     'type': 'TYPE_SIMPLE_JOB',
                     'scheduled_date_time': date,
                     'payload': {
@@ -108,6 +109,7 @@ describe('Bonfire Test Suite:', () => {
                 expect(job).to.not.be.null
 
                 expect(job.getKey()).to.equal('test_key')
+                expect(job.getTag()).to.equal('TASK_TAG_JOB')
                 expect(job.getType()).to.equal('TYPE_SIMPLE_JOB')
                 expect(job.getScheduledDateTime().getTime()).to.equal(date)
                 expect(JSON.stringify(job.getPayload())).to.equal(JSON.stringify({
@@ -141,6 +143,7 @@ describe('Bonfire Test Suite:', () => {
                 await FirebaseApp.database().ref('jobs').set({
                     'test_key': {
                         'id': 'test_key_1',
+                        'tag': 'TASK_TAG_JOB',
                         'type': 'TYPE_SIMPLE_JOB',
                         'scheduled_date_time': new Date(Date.now() + 360000).getTime()
                     }
@@ -150,20 +153,9 @@ describe('Bonfire Test Suite:', () => {
 
                 await new Promise<any>(resolve => setTimeout(resolve, 2000))
 
+                expect(scheduler.getPendingCount()).to.equal(1)
+
                 done()
-            })
-        })
-
-        describe('Looking up the root node ref:', () => {
-            it('should return the same ref that is used to create the instance', () => {
-
-                const FirebaseApp: ShadowFirebase = this.ShadowFirebase
-
-                const ref: Firebase.database.Reference = FirebaseApp.database().ref('jobs')
-
-                const scheduler: Bonfire.Scheduler = new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
-
-                expect(scheduler.getRef().toString()).to.equal(ref.toString())
             })
         })
 
@@ -194,13 +186,13 @@ describe('Bonfire Test Suite:', () => {
                     new Date(Date.now() + 360000)
                 )
 
-                expect(Scheduler.getPendingJobCount()).to.equal(0)
+                expect(Scheduler.getPendingCount()).to.equal(0)
 
-                let jobRes: Bonfire.Job = await Scheduler.schedule(job)
-
+                let jobRes: ITask = await Scheduler.schedule(job)
+                expect(jobRes).to.be.an.instanceOf(Bonfire.Job)
                 expect(jobRes).to.equal(job)
 
-                expect(Scheduler.getPendingJobCount()).to.equal(1)
+                expect(Scheduler.getPendingCount()).to.equal(1)
             })
             it('should return the existing job if the job already exists within the firebase RD', async () => {
                 const FirebaseApp: ShadowFirebase = this.ShadowFirebase
@@ -218,15 +210,17 @@ describe('Bonfire Test Suite:', () => {
                     new Date(Date.now() + 720000)
                 )
 
-                expect(Scheduler.getPendingJobCount()).to.equal(0)
+                expect(Scheduler.getPendingCount()).to.equal(0)
 
-                let jobRes: Bonfire.Job = await Scheduler.schedule(job)
+                let jobRes: ITask = await Scheduler.schedule(job)
+                expect(jobRes).to.be.an.instanceOf(Bonfire.Job)
                 expect(jobRes).to.equal(job)
-                expect(Scheduler.getPendingJobCount()).to.equal(1)
+                expect(Scheduler.getPendingCount()).to.equal(1)
 
-                let jobResTwo: Bonfire.Job = await Scheduler.schedule(jobTwo)
+                let jobResTwo: ITask = await Scheduler.schedule(jobTwo)
+                expect(jobResTwo).to.be.an.instanceOf(Bonfire.Job)
                 expect(jobResTwo).to.not.equal(jobTwo)
-                expect(Scheduler.getPendingJobCount()).to.equal(1)
+                expect(Scheduler.getPendingCount()).to.equal(1)
             })
         })
 
@@ -254,17 +248,17 @@ describe('Bonfire Test Suite:', () => {
                     new Date(Date.now() + 360000)
                 )
 
-                expect(Scheduler.getPendingJobCount()).to.equal(0)
+                expect(Scheduler.getPendingCount()).to.equal(0)
 
-                let jobRes: Bonfire.Job = await Scheduler.schedule(job)
-
+                let jobRes: ITask = await Scheduler.schedule(job)
+                expect(jobRes).to.be.an.instanceOf(Bonfire.Job)
                 expect(jobRes).to.equal(job)
 
-                expect(Scheduler.getPendingJobCount()).to.equal(1)
+                expect(Scheduler.getPendingCount()).to.equal(1)
 
                 await Scheduler.cancel('test_key')
 
-                expect(Scheduler.getPendingJobCount()).to.equal(0)
+                expect(Scheduler.getPendingCount()).to.equal(0)
             })
         })
 

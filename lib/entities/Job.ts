@@ -120,6 +120,7 @@ class Job implements ITask {
     public asJson(): any {
         let obj: any = {
             'id': this.key,
+            'tag': this.getTag(),
             'type': this.type,
             'scheduled_date_time': this.scheduledDateTime.getTime()
         }
