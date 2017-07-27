@@ -7,6 +7,11 @@ import { ITask } from './ITask';
 export interface IRedundancyService {
 
     /**
+     * Return a list of all existing Tasks from the redundancy service.
+     */
+    getAll(): Promise<ITask[]>
+
+    /**
      * Performs a lookup and retrieves a Task implementation from the
      * redundancy service.
      * 

@@ -2,7 +2,7 @@ import { IRedundancyService } from './../descriptors/IRedundancyService'
 import * as Firebase from 'firebase-admin'
 import { ITask } from './../descriptors/ITask'
 import { Errors } from './../utils/Errors'
-import { Job } from '../entities/Job';
+import { Job } from '../entities/Job'
 
 class FirebaseRedundancyService implements IRedundancyService {
 
@@ -17,12 +17,61 @@ class FirebaseRedundancyService implements IRedundancyService {
     }
 
     /**
+     * Deserialize a JSON object into its corresponding task.
+     * 
+     * @param data  The serialized data as a JSON object.
+     * @return  A corresponding Task Implementation.
+     */
+    private deserialize(data: any): ITask {
+        switch (data['tag']) {
+            case Job.TASK_TAG:
+                return Job.fromJson(data)
+            default:
+                return null
+        }
+    }
+
+    /**
      * Return the reference node associated with the redundancy mechanism.
      * 
      * @return  A Firebase Reference to the node which contains Task data.
      */
     public getRef(): Firebase.database.Reference {
         return this.redundancyReference
+    }
+
+    public async getAll(): Promise<Array<ITask>> {
+
+        // Lookup the reference to the node in an attempt to queue jobs after
+        // instantiation.
+        const nodeSnapshot: Firebase.database.DataSnapshot =
+            await this.redundancyReference.once('value')
+
+        // Ensure that the object exists.
+        if (!nodeSnapshot.exists()) {
+            // Job node does not exist. Nothin to do here.
+            return null
+        }
+
+        const tasks: Array<ITask> = new Array<ITask>()
+
+        // Iterate through the jobs and requeue as neccessart.
+        nodeSnapshot.forEach((jobSnapshot: Firebase.database.DataSnapshot) => {
+
+            // Ensure that the object exists.
+            if (!jobSnapshot.exists()) {
+                // Job does not exist. Nothin to do here.
+                return false
+            }
+
+            // Deserialize and add to the list of tasks.
+            tasks.push(this.deserialize(jobSnapshot.val()))
+
+            // Returning true exits from the iterator.
+            return false
+        })
+
+        return tasks
     }
 
     /**
@@ -32,23 +81,15 @@ class FirebaseRedundancyService implements IRedundancyService {
      */
     public async fetch(key: string): Promise<ITask> {
         // Fetch the value from firebase.
-        let taskSnapshot: Firebase.database.DataSnapshot
-        taskSnapshot = await this.redundancyReference.child(key).once('value')
+        const taskSnapshot: Firebase.database.DataSnapshot =
+            await this.redundancyReference.child(key).once('value')
 
         // Return null if the task does not exist.
         if (!taskSnapshot.exists()) {
             return null
         }
 
-        // Convert to JSON to process tag
-        let taskData: any = taskSnapshot.val()
-
-        switch (taskData['tag']) {
-            case Job.TASK_TAG:
-                return Job.fromJson(taskData)
-            default:
-                return null
-        }
+        return this.deserialize(taskSnapshot.val())
     }
 
     /**

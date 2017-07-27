@@ -26,6 +26,35 @@ class Scheduler implements IScheduler {
 
         // Build the local mapping of jobs.
         this.jobList = new Map<string, NodeSchedule.Job>()
+
+        // Reque the exsting tasks.
+        this.queueExisting()
+    }
+
+
+    /**
+     * Process tasks that may have not been started due to a server restart.
+     * 
+     * @return  A Promise which resolves when all existing tasks have been
+     *          queued.
+     */
+    public async queueExisting(): Promise<void> {
+        // Fetch all the existing tasks
+        const tasks: Array<ITask> = await this.redundancyService.getAll()
+
+        tasks.forEach((task: ITask) => {
+            // Ensure that the job is in the future.
+            if (task.getScheduledDateTime().getTime() < Date.now()) {
+                // Cannot schedule a job to complete in a time that no
+                // longer exists. We notify on the callback so that the
+                // case can be handled.
+                this.jobCompletionHandler(task.getKey(), task)
+                this.redundancyService.remove(task.getKey())
+            } else {
+                // Delegate the job item to the actual job scheduler.
+                this.scheduleJob(task)
+            }
+        });
     }
 
     /**
@@ -33,6 +62,7 @@ class Scheduler implements IScheduler {
      * scheduled.
      *
      * @param key   The firebase key associated with the job.
+     * @return  A function which acts as a callback for when a callback is issued.
      */
     private getJobCallback(key: string): (() => void) {
         return async () => {
@@ -57,7 +87,6 @@ class Scheduler implements IScheduler {
             await this.redundancyService.remove(key)
         }
     }
-
 
     /**
      * Leverage the NodeSchedule library to schedule a one time job.

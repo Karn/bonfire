@@ -84,7 +84,7 @@ describe('Bonfire Test Suite:', () => {
                 expect(job.getKey()).to.equal('test_key')
                 expect(job.getType()).to.equal('TYPE_SIMPLE_JOB')
                 expect(job.getScheduledDateTime().getTime()).to.equal(date)
-                expect(job.getPayload()).to.be.null
+                expect(job.getPayload()).to.be.undefined
             })
 
             it('and also assign a payload if one is provided', () => {
