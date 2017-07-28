@@ -6,6 +6,7 @@
         "removeComments": true,
         "declaration": true,
         "outDir": "./dist",
+        "alwaysStrict": true,
         "types": [
             "node"
         ]
