@@ -69,7 +69,7 @@ describe('Bonfire Test Suite:', () => {
 
                 const jobData: any = {
                     'id': 'test_key',
-                    'type': 'TYPE_SIMPLE_JOB',
+                    'tag': 'TAG_SIMPLE_JOB',
                     'scheduled_date_time': date
                 }
 
@@ -82,7 +82,8 @@ describe('Bonfire Test Suite:', () => {
                 expect(job).to.not.be.null
 
                 expect(job.getKey()).to.equal('test_key')
-                expect(job.getType()).to.equal('TYPE_SIMPLE_JOB')
+                expect(job.getType()).to.equal(Bonfire.Job.TASK_TYPE)
+                expect(job.getTag()).to.equal('TAG_SIMPLE_JOB')
                 expect(job.getScheduledDateTime().getTime()).to.equal(date)
                 expect(job.getPayload()).to.be.undefined
             })
@@ -92,8 +93,8 @@ describe('Bonfire Test Suite:', () => {
 
                 const jobData: any = {
                     'id': 'test_key',
-                    'tag': 'TASK_TAG_JOB',
-                    'type': 'TYPE_SIMPLE_JOB',
+                    'tag': 'TAG_SIMPLE_JOB',
+                    'type': Bonfire.Job.TASK_TYPE,
                     'scheduled_date_time': date,
                     'payload': {
                         'test': 'hello_world'
@@ -109,8 +110,8 @@ describe('Bonfire Test Suite:', () => {
                 expect(job).to.not.be.null
 
                 expect(job.getKey()).to.equal('test_key')
-                expect(job.getTag()).to.equal('TASK_TAG_JOB')
-                expect(job.getType()).to.equal('TYPE_SIMPLE_JOB')
+                expect(job.getType()).to.equal(Bonfire.Job.TASK_TYPE)
+                expect(job.getTag()).to.equal('TAG_SIMPLE_JOB')
                 expect(job.getScheduledDateTime().getTime()).to.equal(date)
                 expect(JSON.stringify(job.getPayload())).to.equal(JSON.stringify({
                     'test': 'hello_world'
@@ -143,8 +144,8 @@ describe('Bonfire Test Suite:', () => {
                 await FirebaseApp.database().ref('jobs').set({
                     'test_key': {
                         'id': 'test_key_1',
-                        'tag': 'TASK_TAG_JOB',
-                        'type': 'TYPE_SIMPLE_JOB',
+                        'tag': 'TAG_SIMPLE_JOB',
+                        'type': Bonfire.Job.TASK_TYPE,
                         'scheduled_date_time': new Date(Date.now() + 360000).getTime()
                     }
                 }, () => { })
@@ -172,7 +173,7 @@ describe('Bonfire Test Suite:', () => {
 
                 return expect(Scheduler.schedule(new Bonfire.Job(
                     'test_key',
-                    'TYPE_SIMPLE_JOB',
+                    'TAG_SIMPLE_JOB',
                     new Date(Date.now() - 360000)
                 ))).to.eventually.be.rejectedWith(Errors.SCHEDULED_IN_PAST)
             })
@@ -182,7 +183,7 @@ describe('Bonfire Test Suite:', () => {
 
                 const job: Bonfire.Job = new Bonfire.Job(
                     'test_key_1',
-                    'TYPE_SIMPLE_JOB',
+                    'TAG_SIMPLE_JOB',
                     new Date(Date.now() + 360000)
                 )
 
@@ -200,13 +201,13 @@ describe('Bonfire Test Suite:', () => {
 
                 const job: Bonfire.Job = new Bonfire.Job(
                     'test_key_1',
-                    'TYPE_SIMPLE_JOB',
+                    'TAG_SIMPLE_JOB',
                     new Date(Date.now() + 360000)
                 )
 
                 const jobTwo: Bonfire.Job = new Bonfire.Job(
                     'test_key_1',
-                    'TYPE_SIMPLE_JOB',
+                    'TAG_SIMPLE_JOB',
                     new Date(Date.now() + 720000)
                 )
 
@@ -244,7 +245,7 @@ describe('Bonfire Test Suite:', () => {
 
                 const job: Bonfire.Job = new Bonfire.Job(
                     'test_key',
-                    'TYPE_SIMPLE_JOB',
+                    'TAG_SIMPLE_JOB',
                     new Date(Date.now() + 360000)
                 )
 
@@ -281,7 +282,7 @@ describe('Bonfire Test Suite:', () => {
 
                 await Scheduler.schedule(new Bonfire.Job(
                     'test_key',
-                    'TYPE_SIMPLE_JOB',
+                    'TAG_SIMPLE_JOB',
                     new Date(Date.now() + 1000)
                 ))
 

@@ -1,12 +1,17 @@
 import { Errors } from '../utils/Errors'
 import { ITask } from '../descriptors/ITask';
 
+/**
+ * A simple implementation of the Task interface. Provides a one-time firing
+ * Task.
+ */
 class Job implements ITask {
 
-    public static readonly TASK_TAG: string = 'TASK_TAG_JOB'
+    // Identifies the type of this Task.
+    public static readonly TASK_TYPE: string = 'TASK_TYPE_JOB'
 
     private key: string
-    private type: string
+    private tag: string
     private scheduledDateTime: Date
     private payload: any
 
@@ -14,22 +19,22 @@ class Job implements ITask {
      * Create the basic components of a Job.
      * 
      * @param key       A unique key to identify this job.
-     * @param type      The type used to catagorize this job.
+     * @param tag       The type used to catagorize this job.
      * @param datatime  The time at which this job will execute as a Date
      *                  object.
      */
-    public constructor(key: string, type: string, datetime: Date) {
+    public constructor(key: string, tag: string, datetime: Date) {
 
         if (!key || key.length == 0) {
             throw new Error(Errors.INVALID_JOB_KEY)
         }
 
-        if (!type || type.length == 0) {
+        if (!tag || tag.length == 0) {
             throw new Error(Errors.INVALID_JOB_TYPE)
         }
 
         this.key = key
-        this.type = type
+        this.tag = tag
         this.scheduledDateTime = datetime
     }
 
@@ -48,7 +53,7 @@ class Job implements ITask {
      * @return  A string identifying this Task.
      */
     public getTag(): string {
-        return Job.TASK_TAG
+        return this.tag
     }
 
     /**
@@ -60,7 +65,7 @@ class Job implements ITask {
      * @return  The type of job described by this object.
      */
     public getType(): string {
-        return this.type
+        return Job.TASK_TYPE
     }
 
     /**
@@ -100,7 +105,7 @@ class Job implements ITask {
     public static fromJson(data: any): Job {
         let job: Job = new Job(
             data['id'],
-            data['type'],
+            data['tag'],
             new Date(data['scheduled_date_time'])
         )
 
@@ -120,8 +125,8 @@ class Job implements ITask {
     public asJson(): any {
         let obj: any = {
             'id': this.key,
-            'tag': this.getTag(),
-            'type': this.type,
+            'type': this.getType(),
+            'tag': this.tag,
             'scheduled_date_time': this.scheduledDateTime.getTime()
         }
 

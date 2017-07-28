@@ -1,7 +1,7 @@
 import { ITask } from './ITask';
 
 /**
- * Provides a skeleton for redundancy mechanisms; All operations must be fully
+ * Provides a skeleton for Redundancy mechanisms; All operations must be fully
  * implemented.
  */
 export interface IRedundancyService {

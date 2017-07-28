@@ -4,10 +4,21 @@ import { ITask } from './../descriptors/ITask'
 import { Errors } from './../utils/Errors'
 import { Job } from '../entities/Job'
 
+/**
+ * Provides an redundancy implementation that allows for Task data to be stored
+ * using the Firebase Realtime Database.
+ */
 class FirebaseRedundancyService implements IRedundancyService {
 
     private redundancyReference: Firebase.database.Reference
 
+    /**
+     * Construct the FirebaseRS object which will provide redundancy for tasks
+     * queued by the scheduler.
+     * 
+     * @param reference A reference to the firebase node at which the Task data
+     * is to be stored.
+     */
     public constructor(reference: Firebase.database.Reference) {
         if (!reference) {
             throw new Error(Errors.INVALID_ROOT_REFERENCE)
@@ -23,8 +34,8 @@ class FirebaseRedundancyService implements IRedundancyService {
      * @return  A corresponding Task Implementation.
      */
     private deserialize(data: any): ITask {
-        switch (data['tag']) {
-            case Job.TASK_TAG:
+        switch (data['type']) {
+            case Job.TASK_TYPE:
                 return Job.fromJson(data)
             default:
                 return null
@@ -40,6 +51,14 @@ class FirebaseRedundancyService implements IRedundancyService {
         return this.redundancyReference
     }
 
+    /**
+     * Fetch a list of all the tasks that are stored within the given firebase
+     * node.
+     * 
+     * @return  A Promise that resolves with a list of Tasks.
+     * 
+     * @see IRedundancyService#getAll()
+     */
     public async getAll(): Promise<Array<ITask>> {
 
         // Lookup the reference to the node in an attempt to queue jobs after
@@ -71,11 +90,16 @@ class FirebaseRedundancyService implements IRedundancyService {
             return false
         })
 
+        // Return the list of tasks.
         return tasks
     }
 
     /**
      * Fetches Task from Firebase for a given key.
+     * 
+     * @param key   The key that is being used to fetch the corresponding task.
+     * @returns A Promise that resolves with the Task associated with the given
+     *          key if it exists else resolves with null.
      * 
      * @see IRedundancyService#fetch(string)
      */
@@ -89,13 +113,17 @@ class FirebaseRedundancyService implements IRedundancyService {
             return null
         }
 
+        // Deserialize the task to its representation.
         return this.deserialize(taskSnapshot.val())
     }
 
     /**
-     * Serializes and stores a task to Firebase.
+     * Serializes and stores a Task to Firebase.
      * 
-     * @see IRedundancyService#commit(string)
+     * @param task  A Task that is being serialized and stored.
+     * @return  A Promise that resolves once the operation is complete.
+     * 
+     * @see IRedundancyService#commit(ITask)
      */
     public async commit(task: ITask): Promise<void> {
         // Set the value at the given key to the serialized version.
@@ -106,6 +134,15 @@ class FirebaseRedundancyService implements IRedundancyService {
         return
     }
 
+    /**
+     * Remove a given Task from the redundancy store.
+     * 
+     * @param key   The key that is used to identify the Task that is being
+     *              removed.
+     * @return  A promise that resolves once the operation is complete.
+     * 
+     * @see IRedundancyService#remove(string)
+     */
     public async remove(key: string): Promise<void> {
         // Remove the reference to the given task using its key.
         await this.redundancyReference.child(key).remove()
