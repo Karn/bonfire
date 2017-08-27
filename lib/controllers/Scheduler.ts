@@ -5,6 +5,7 @@ import { IScheduler } from './../descriptors/IScheduler'
 import { ITask } from './../descriptors/ITask'
 import * as Firebase from 'firebase-admin'
 import * as NodeSchedule from 'node-schedule'
+
 /**
  * This implementation of the scehduler object provides task management with a
  * Firebase backbone.

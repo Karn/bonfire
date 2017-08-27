@@ -1,6 +1,7 @@
 /**
  * Error strings are detailed as constants here. Using constants allows for
- * consistent messages.
+ * consistent messages. Since no custom errors are used, the message must
+ * provide appropriate context and data.
  */
 class Errors {
     public static readonly INVALID_ROOT_REFERENCE = 'Bonfire: Attempt to instantiate with invalid reference.'

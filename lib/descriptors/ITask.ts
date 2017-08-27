@@ -2,7 +2,7 @@
  * Provides a skeleton for a Task; All operations must be fully
  * implemented.
  */
-export interface ITask {
+interface ITask {
 
     /**
      * A key that uniquely identifies a given Task.
@@ -48,4 +48,8 @@ export interface ITask {
      * @return  The Task as a JSON object.
      */
     asJson(): any
+}
+
+export {
+    ITask
 }

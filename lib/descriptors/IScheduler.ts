@@ -4,7 +4,7 @@ import { ITask } from './ITask'
  * Provides a skeleton for a Scheduler; All operations must be fully
  * implemented.
  */
-export interface IScheduler {
+interface IScheduler {
 
     /**
      * Queue existing tasks. Useful when, for example, the implementing product
@@ -49,4 +49,8 @@ export interface IScheduler {
      * @return  A Promise which resolves once the operation has completed.
      */
     cancel(key: string): Promise<void>
+}
+
+export {
+    IScheduler
 }

@@ -4,7 +4,7 @@ import { ITask } from './ITask'
  * Provides a skeleton for Redundancy mechanisms; All operations must be fully
  * implemented.
  */
-export interface IRedundancyService {
+interface IRedundancyService {
 
     /**
      * Return a list of all existing Tasks from the redundancy service.
@@ -40,4 +40,8 @@ export interface IRedundancyService {
      *          successfully.
      */
     remove(key: string): Promise<void>
+}
+
+export {
+    IRedundancyService
 }

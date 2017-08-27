@@ -10,7 +10,7 @@ import * as Firebase from 'firebase-admin'
  */
 class FirebaseRedundancyService implements IRedundancyService {
 
-    private redundancyReference: Firebase.database.Reference
+    private redundancyNodeReference: Firebase.database.Reference
 
     /**
      * Construct the FirebaseRS object which will provide redundancy for tasks
@@ -24,7 +24,7 @@ class FirebaseRedundancyService implements IRedundancyService {
             throw new Error(Errors.INVALID_ROOT_REFERENCE)
         }
 
-        this.redundancyReference = reference
+        this.redundancyNodeReference = reference
     }
 
     /**
@@ -37,6 +37,7 @@ class FirebaseRedundancyService implements IRedundancyService {
         switch (data['type']) {
             case Job.TASK_TYPE:
                 return Job.fromJson(data)
+
             default:
                 return null
         }
@@ -48,7 +49,7 @@ class FirebaseRedundancyService implements IRedundancyService {
      * @return  A Firebase Reference to the node which contains Task data.
      */
     public getRef(): Firebase.database.Reference {
-        return this.redundancyReference
+        return this.redundancyNodeReference
     }
 
     /**
@@ -64,7 +65,7 @@ class FirebaseRedundancyService implements IRedundancyService {
         // Lookup the reference to the node in an attempt to queue jobs after
         // instantiation.
         const nodeSnapshot: Firebase.database.DataSnapshot =
-            await this.redundancyReference.once('value')
+            await this.redundancyNodeReference.once('value')
 
         // Ensure that the object exists.
         if (!nodeSnapshot.exists()) {
@@ -72,6 +73,7 @@ class FirebaseRedundancyService implements IRedundancyService {
             return null
         }
 
+        // Create an empty array list to store teh tasks.
         const tasks: Array<ITask> = new Array<ITask>()
 
         // Iterate through the jobs and requeue as neccessart.
@@ -106,7 +108,7 @@ class FirebaseRedundancyService implements IRedundancyService {
     public async fetch(key: string): Promise<ITask> {
         // Fetch the value from firebase.
         const taskSnapshot: Firebase.database.DataSnapshot =
-            await this.redundancyReference.child(key).once('value')
+            await this.redundancyNodeReference.child(key).once('value')
 
         // Return null if the task does not exist.
         if (!taskSnapshot.exists()) {
@@ -127,7 +129,7 @@ class FirebaseRedundancyService implements IRedundancyService {
      */
     public async commit(task: ITask): Promise<void> {
         // Set the value at the given key to the serialized version.
-        await this.redundancyReference
+        await this.redundancyNodeReference
             .child(task.getKey())
             .set(task.asJson())
 
@@ -145,7 +147,7 @@ class FirebaseRedundancyService implements IRedundancyService {
      */
     public async remove(key: string): Promise<void> {
         // Remove the reference to the given task using its key.
-        await this.redundancyReference.child(key).remove()
+        await this.redundancyNodeReference.child(key).remove()
 
         return
     }
