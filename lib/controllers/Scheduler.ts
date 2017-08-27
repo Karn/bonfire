@@ -1,31 +1,35 @@
-import { IScheduler } from './../descriptors/IScheduler'
-import * as Firebase from 'firebase-admin'
+import { Errors } from './../utils/Errors'
 import { FirebaseRedundancyService } from './FirebaseRedundancyService'
+import { Handlers } from './../utils/Handlers'
+import { IScheduler } from './../descriptors/IScheduler'
+import { ITask } from './../descriptors/ITask'
+import * as Firebase from 'firebase-admin'
 import * as NodeSchedule from 'node-schedule'
-import { Handlers } from '../utils/Handlers'
-import { ITask } from '../descriptors/ITask';
-import { Errors } from "../utils/Errors";
 
+/**
+ * This implementation of the scehduler object provides task management with a
+ * Firebase backbone.
+ */
 class Scheduler implements IScheduler {
 
-    /**
-     * Maintains a list of local jobs.
-     */
-    private jobList: Map<string, NodeSchedule.Job>
-
+    // Maintains a list of local tasks.
+    private taskList: Map<string, NodeSchedule.Job>
+    // An instance of the Firebase redunancy service.
     private redundancyService: FirebaseRedundancyService
+    // A handler that is executed when a task has completed.
+    private taskCompletionHandler: Handlers.TaskCompletionHandler
 
-    private jobCompletionHandler: Handlers.JobCompletionHandler
+    public constructor(reference: Firebase.database.Reference,
+        taskCompletionHandler: Handlers.TaskCompletionHandler) {
 
-    public constructor(reference: Firebase.database.Reference, jobCompletionHandler: Handlers.JobCompletionHandler) {
         // Attach the redundancy service
         this.redundancyService = new FirebaseRedundancyService(reference)
 
         // Attach the jobCompletionHandler.
-        this.jobCompletionHandler = jobCompletionHandler
+        this.taskCompletionHandler = taskCompletionHandler
 
         // Build the local mapping of jobs.
-        this.jobList = new Map<string, NodeSchedule.Job>()
+        this.taskList = new Map<string, NodeSchedule.Job>()
 
         // Reque the exsting tasks.
         this.redundancyService.getAll().then((tasks: Array<ITask>) => {
@@ -37,21 +41,22 @@ class Scheduler implements IScheduler {
     }
 
     /**
-     * Generates a callback which is executed when the given job is 
+     * Generates a callback which is executed when the given job is
      * scheduled.
      *
      * @param key   The firebase key associated with the job.
-     * @return  A function which acts as a callback for when a callback is issued.
+     * @return  A function which acts as a callback for when a callback is
+     *          issued.
      */
     private getJobCallback(key: string): (() => void) {
         return async () => {
-            if (!this.jobCompletionHandler) {
+            if (!this.taskCompletionHandler) {
                 // There is no callback attached skip processing.
                 // TODO: Warn the user.
                 return
             }
 
-            let task: ITask = await this.redundancyService.fetch(key)
+            const task: ITask = await this.redundancyService.fetch(key)
 
             // Ensure that the object exists.
             if (!task) {
@@ -59,8 +64,10 @@ class Scheduler implements IScheduler {
                 return
             }
 
-            // Notify the completion handler about the job.
-            this.jobCompletionHandler(key, task)
+            // Notify the completion handler about the job if it exits.
+            if (this.taskCompletionHandler) {
+                this.taskCompletionHandler(key, task)
+            }
 
             // We then delete the job from the referenced node.
             await this.redundancyService.remove(key)
@@ -69,30 +76,30 @@ class Scheduler implements IScheduler {
 
     /**
      * Leverage the NodeSchedule library to schedule a one time job.
-     * 
-     * @param job The job that is being scheduled.
+     *
+     * @param task  The task that is being scheduled.
      */
-    private scheduleJob(job: ITask): void {
-        if (this.jobList.has(job.getKey())) {
+    private scheduleTask(task: ITask): void {
+        if (this.taskList.has(task.getKey())) {
             // Skip scheduling job for a key that already exists.
             return
         }
 
-        // Create the scheduled job
+        // Create the scheduled task.
         const scheduledJob: NodeSchedule.Job = NodeSchedule.scheduleJob(
-            job.getKey(),
-            job.getScheduledDateTime(),
-            this.getJobCallback(job.getKey())
+            task.getKey(),
+            task.getScheduledDateTime(),
+            this.getJobCallback(task.getKey())
         )
 
-        // Add the new job to the list of jobs.
-        this.jobList.set(job.getKey(), scheduledJob);
+        // Add the new job to the list of tasks.
+        this.taskList.set(task.getKey(), scheduledJob);
     }
 
 
     /**
      * Process tasks that may have not been started due to a server restart.
-     * 
+     *
      * @param tasks A collection of tasks that are to be queued.
      * @return  A Promise which resolves when all existing tasks have been
      *          queued.
@@ -109,27 +116,38 @@ class Scheduler implements IScheduler {
                 // Cannot schedule a job to complete in a time that no
                 // longer exists. We notify on the callback so that the
                 // case can be handled.
-                this.jobCompletionHandler(task.getKey(), task)
+                this.taskCompletionHandler(task.getKey(), task)
                 this.redundancyService.remove(task.getKey())
             } else {
                 // Delegate the job item to the actual job scheduler.
-                this.scheduleJob(task)
+                this.scheduleTask(task)
             }
         });
     }
 
     /**
-     * 
+     * Fetch a given task by key.
+     *
      * @see IScheduler#get(string)
      */
     public async get(key: string): Promise<ITask> {
         return await this.redundancyService.fetch(key)
     }
 
+    /**
+     * Returns the number of pending tasks.
+     *
+     * @return The number of tasks that are queued.
+     */
     public getPendingCount(): number {
-        return this.jobList.size
+        return this.taskList.size
     }
 
+    /**
+     * Schedule a given task.
+     *
+     * @param task  The task that is being scheduled.
+     */
     public async schedule(task: ITask): Promise<ITask> {
 
         // Ensure that the job is in the future.
@@ -141,10 +159,13 @@ class Scheduler implements IScheduler {
         // refresh, we enable this variable so that we don't waste cycles.
         let shouldCreateLocallyOnly: boolean = false
 
-        let existingTask: ITask = await this.redundancyService.fetch(task.getKey())
+        // Fetch the task associated with that key.
+        const existingTask: ITask = await this.redundancyService
+            .fetch(task.getKey())
+
         if (existingTask) {
-            // Check if we already have the job queued
-            if (this.jobList.has(task.getKey())) {
+            // Check if we already have the job queued.
+            if (this.taskList.has(task.getKey())) {
                 // The job already exists; nothing to do here.
                 return existingTask
             }
@@ -154,7 +175,7 @@ class Scheduler implements IScheduler {
         }
 
         // Delegate the job item to the actual job scheduler.
-        this.scheduleJob(task)
+        this.scheduleTask(task)
 
         if (!shouldCreateLocallyOnly) {
             // Create job with the key in the jobItem and with the data being
@@ -165,9 +186,14 @@ class Scheduler implements IScheduler {
         return task
     }
 
+    /**
+     * Cancel a pending task by key.
+     *
+     * @param key   The key that identifies the task that is to be cancelled.
+     */
     public async cancel(key: string): Promise<void> {
         // Validate key
-        if (!this.jobList.has(key)) {
+        if (!this.taskList.has(key)) {
             return
         }
 
@@ -175,13 +201,15 @@ class Scheduler implements IScheduler {
         await this.redundancyService.remove(key)
 
         // Fetch local copy.
-        let job: NodeSchedule.Job | undefined = this.jobList.get(key)
+        const job: NodeSchedule.Job | undefined = this.taskList.get(key)
 
         // Cancel keys
-        if (job) job.cancel()
-        this.jobList.delete(key)
-    }
+        if (job) {
+            job.cancel()
+        }
 
+        this.taskList.delete(key)
+    }
 }
 
 export {

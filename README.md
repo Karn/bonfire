@@ -16,9 +16,11 @@ Simple Node scheduling backed by Firebase RD.
 
 
 ###### TABLE OF CONTENTS
-- [Using Bonfire](docs/usage.md)
-- [API Documentation](docs/api/documentation.md)
-- [Contributing](.github/CONTRIBUTING.md)
+- [Using Bonfire](./docs/usage.md)
+- [Test Suite](./docs/test-suite.md)
+- [API Documentation](./docs/api/documentation.md)
+- [Code Style](./docs/misc/code-style.md)
+- [Contributing](./.github/CONTRIBUTING.md)
 
 
 ###### GETTING STARTED
