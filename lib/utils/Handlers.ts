@@ -7,7 +7,7 @@ namespace Handlers {
     /**
      * When a given task has completed, this event handler used to notify
      * of the completion.
-     * 
+     *
      * @param key   The key associated with the task that has completed.
      * @param task  The above mentioned task.
      */
@@ -15,7 +15,7 @@ namespace Handlers {
 
     /**
      * A Handler that notifies when a new task has been completed.
-     * 
+     *
      * @param task  The task object corresponding to the task that has been
      *              created.
      */

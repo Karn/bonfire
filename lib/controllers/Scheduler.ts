@@ -24,7 +24,9 @@ class Scheduler implements IScheduler {
      */
     private taskCompletionHandler: Handlers.TaskCompletionHandler
 
-    public constructor(reference: Firebase.database.Reference, taskCompletionHandler: Handlers.TaskCompletionHandler) {
+    public constructor(reference: Firebase.database.Reference,
+        taskCompletionHandler: Handlers.TaskCompletionHandler) {
+
         // Attach the redundancy service
         this.redundancyService = new FirebaseRedundancyService(reference)
 
@@ -44,7 +46,7 @@ class Scheduler implements IScheduler {
     }
 
     /**
-     * Generates a callback which is executed when the given job is 
+     * Generates a callback which is executed when the given job is
      * scheduled.
      *
      * @param key   The firebase key associated with the job.
@@ -59,7 +61,7 @@ class Scheduler implements IScheduler {
                 return
             }
 
-            let task: ITask = await this.redundancyService.fetch(key)
+            const task: ITask = await this.redundancyService.fetch(key)
 
             // Ensure that the object exists.
             if (!task) {
@@ -79,30 +81,30 @@ class Scheduler implements IScheduler {
 
     /**
      * Leverage the NodeSchedule library to schedule a one time job.
-     * 
-     * @param job The job that is being scheduled.
+     *
+     * @param task  The task that is being scheduled.
      */
-    private scheduleJob(job: ITask): void {
-        if (this.taskList.has(job.getKey())) {
+    private scheduleTask(task: ITask): void {
+        if (this.taskList.has(task.getKey())) {
             // Skip scheduling job for a key that already exists.
             return
         }
 
-        // Create the scheduled job
+        // Create the scheduled task.
         const scheduledJob: NodeSchedule.Job = NodeSchedule.scheduleJob(
-            job.getKey(),
-            job.getScheduledDateTime(),
-            this.getJobCallback(job.getKey())
+            task.getKey(),
+            task.getScheduledDateTime(),
+            this.getJobCallback(task.getKey())
         )
 
-        // Add the new job to the list of jobs.
-        this.taskList.set(job.getKey(), scheduledJob);
+        // Add the new job to the list of tasks.
+        this.taskList.set(task.getKey(), scheduledJob);
     }
 
 
     /**
      * Process tasks that may have not been started due to a server restart.
-     * 
+     *
      * @param tasks A collection of tasks that are to be queued.
      * @return  A Promise which resolves when all existing tasks have been
      *          queued.
@@ -123,14 +125,14 @@ class Scheduler implements IScheduler {
                 this.redundancyService.remove(task.getKey())
             } else {
                 // Delegate the job item to the actual job scheduler.
-                this.scheduleJob(task)
+                this.scheduleTask(task)
             }
         });
     }
 
     /**
      * Fetch a given task by key.
-     * 
+     *
      * @see IScheduler#get(string)
      */
     public async get(key: string): Promise<ITask> {
@@ -139,13 +141,18 @@ class Scheduler implements IScheduler {
 
     /**
      * Returns the number of pending tasks.
-     * 
+     *
      * @return The number of tasks that are queued.
      */
     public getPendingCount(): number {
         return this.taskList.size
     }
 
+    /**
+     * Schedule a given task.
+     *
+     * @param task  The task that is being scheduled.
+     */
     public async schedule(task: ITask): Promise<ITask> {
 
         // Ensure that the job is in the future.
@@ -157,9 +164,12 @@ class Scheduler implements IScheduler {
         // refresh, we enable this variable so that we don't waste cycles.
         let shouldCreateLocallyOnly: boolean = false
 
-        let existingTask: ITask = await this.redundancyService.fetch(task.getKey())
+        // Fetch the task associated with that key.
+        const existingTask: ITask = await this.redundancyService
+            .fetch(task.getKey())
+
         if (existingTask) {
-            // Check if we already have the job queued
+            // Check if we already have the job queued.
             if (this.taskList.has(task.getKey())) {
                 // The job already exists; nothing to do here.
                 return existingTask
@@ -170,7 +180,7 @@ class Scheduler implements IScheduler {
         }
 
         // Delegate the job item to the actual job scheduler.
-        this.scheduleJob(task)
+        this.scheduleTask(task)
 
         if (!shouldCreateLocallyOnly) {
             // Create job with the key in the jobItem and with the data being
@@ -183,7 +193,7 @@ class Scheduler implements IScheduler {
 
     /**
      * Cancel a pending task by key.
-     * 
+     *
      * @param key   The key that identifies the task that is to be cancelled.
      */
     public async cancel(key: string): Promise<void> {
@@ -196,13 +206,15 @@ class Scheduler implements IScheduler {
         await this.redundancyService.remove(key)
 
         // Fetch local copy.
-        let job: NodeSchedule.Job | undefined = this.taskList.get(key)
+        const job: NodeSchedule.Job | undefined = this.taskList.get(key)
 
         // Cancel keys
-        if (job) job.cancel()
+        if (job) {
+            job.cancel()
+        }
+
         this.taskList.delete(key)
     }
-
 }
 
 export {

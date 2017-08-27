@@ -15,7 +15,7 @@ class FirebaseRedundancyService implements IRedundancyService {
     /**
      * Construct the FirebaseRS object which will provide redundancy for tasks
      * queued by the scheduler.
-     * 
+     *
      * @param reference A reference to the firebase node at which the Task data
      * is to be stored.
      */
@@ -29,7 +29,7 @@ class FirebaseRedundancyService implements IRedundancyService {
 
     /**
      * Deserialize a JSON object into its corresponding task.
-     * 
+     *
      * @param data  The serialized data as a JSON object.
      * @return  A corresponding Task Implementation.
      */
@@ -45,7 +45,7 @@ class FirebaseRedundancyService implements IRedundancyService {
 
     /**
      * Return the reference node associated with the redundancy mechanism.
-     * 
+     *
      * @return  A Firebase Reference to the node which contains Task data.
      */
     public getRef(): Firebase.database.Reference {
@@ -55,9 +55,9 @@ class FirebaseRedundancyService implements IRedundancyService {
     /**
      * Fetch a list of all the tasks that are stored within the given firebase
      * node.
-     * 
+     *
      * @return  A Promise that resolves with a list of Tasks.
-     * 
+     *
      * @see IRedundancyService#getAll()
      */
     public async getAll(): Promise<Array<ITask>> {
@@ -98,11 +98,11 @@ class FirebaseRedundancyService implements IRedundancyService {
 
     /**
      * Fetches Task from Firebase for a given key.
-     * 
+     *
      * @param key   The key that is being used to fetch the corresponding task.
      * @returns A Promise that resolves with the Task associated with the given
      *          key if it exists else resolves with null.
-     * 
+     *
      * @see IRedundancyService#fetch(string)
      */
     public async fetch(key: string): Promise<ITask> {
@@ -121,10 +121,10 @@ class FirebaseRedundancyService implements IRedundancyService {
 
     /**
      * Serializes and stores a Task to Firebase.
-     * 
+     *
      * @param task  A Task that is being serialized and stored.
      * @return  A Promise that resolves once the operation is complete.
-     * 
+     *
      * @see IRedundancyService#commit(ITask)
      */
     public async commit(task: ITask): Promise<void> {
@@ -138,11 +138,11 @@ class FirebaseRedundancyService implements IRedundancyService {
 
     /**
      * Remove a given Task from the redundancy store.
-     * 
+     *
      * @param key   The key that is used to identify the Task that is being
      *              removed.
      * @return  A promise that resolves once the operation is complete.
-     * 
+     *
      * @see IRedundancyService#remove(string)
      */
     public async remove(key: string): Promise<void> {

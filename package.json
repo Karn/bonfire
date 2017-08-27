@@ -13,6 +13,7 @@
   "main": "./dist/Index.js",
   "scripts": {
     "prepare": "yarn build",
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.json --type-check ./lib/**/*.ts",
     "build": "tsc",
     "test": "jest --no-cache"
   },
