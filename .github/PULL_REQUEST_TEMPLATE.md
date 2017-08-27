@@ -1,11 +1,11 @@
-Issue: #
+**Issue**: #
 
-Proposed changes:
+**Proposed changes**:
 - E.g: Created a new test case to validate task creation with null key.
 
-Notes:
-- N/A
+**Notes**:
+- Remove if not-applicable.
 
-Validation:
+**Validation**:
 - [ ] Linting & Code Style
 - [ ] Additional/udpdated tests
