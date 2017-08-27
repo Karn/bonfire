@@ -43,6 +43,7 @@
         "semicolon": [
             "never"
         ],
+        "switch-default": true,
         "triple-equals": [
             true,
             "allow-null-check"

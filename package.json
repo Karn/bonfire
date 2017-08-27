@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "firebase-admin": "5.0.1",
-    "node-schedule": "1.2.3"
+    "node-schedule": "1.2.3",
+    "tslint": "^5.7.0"
   },
   "jest": {
     "transform": {
