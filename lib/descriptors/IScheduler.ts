@@ -1,4 +1,4 @@
-import { ITask } from './ITask';
+import { ITask } from './ITask'
 
 /**
  * Provides a skeleton for a Scheduler; All operations must be fully

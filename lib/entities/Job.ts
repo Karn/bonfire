@@ -1,5 +1,5 @@
-import { Errors } from '../utils/Errors'
-import { ITask } from '../descriptors/ITask';
+import { Errors } from './../utils/Errors'
+import { ITask } from './../descriptors/ITask'
 
 /**
  * A simple implementation of the Task interface. Provides a one-time firing

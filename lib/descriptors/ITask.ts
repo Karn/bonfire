@@ -1,4 +1,3 @@
-
 /**
  * Provides a skeleton for a Task; All operations must be fully
  * implemented.

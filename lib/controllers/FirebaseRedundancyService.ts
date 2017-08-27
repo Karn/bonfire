@@ -1,8 +1,8 @@
-import { IRedundancyService } from './../descriptors/IRedundancyService'
-import * as Firebase from 'firebase-admin'
-import { ITask } from './../descriptors/ITask'
 import { Errors } from './../utils/Errors'
-import { Job } from '../entities/Job'
+import { IRedundancyService } from './../descriptors/IRedundancyService'
+import { ITask } from './../descriptors/ITask'
+import { Job } from './../entities/Job'
+import * as Firebase from 'firebase-admin'
 
 /**
  * Provides an redundancy implementation that allows for Task data to be stored
