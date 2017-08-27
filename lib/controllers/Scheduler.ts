@@ -12,16 +12,11 @@ import * as NodeSchedule from 'node-schedule'
  */
 class Scheduler implements IScheduler {
 
-    /**
-     * Maintains a list of local tasks.
-     */
+    // Maintains a list of local tasks.
     private taskList: Map<string, NodeSchedule.Job>
-
+    // An instance of the Firebase redunancy service.
     private redundancyService: FirebaseRedundancyService
-
-    /**
-     * A handler that is executed when a task has completed.
-     */
+    // A handler that is executed when a task has completed.
     private taskCompletionHandler: Handlers.TaskCompletionHandler
 
     public constructor(reference: Firebase.database.Reference,

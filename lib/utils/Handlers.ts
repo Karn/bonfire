@@ -4,6 +4,7 @@ import { ITask } from './../descriptors/ITask'
  * A wrapper namespace for common callbacks (aka Result Handlers).
  */
 namespace Handlers {
+
     /**
      * When a given task has completed, this event handler used to notify
      * of the completion.

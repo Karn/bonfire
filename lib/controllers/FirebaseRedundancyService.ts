@@ -10,6 +10,8 @@ import * as Firebase from 'firebase-admin'
  */
 class FirebaseRedundancyService implements IRedundancyService {
 
+    // A reference to the Firebase node at which the serialized tasks will
+    // exist.
     private redundancyNodeReference: Firebase.database.Reference
 
     /**

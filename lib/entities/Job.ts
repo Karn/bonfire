@@ -10,9 +10,13 @@ class Job implements ITask {
     // Identifies the type of this Task.
     public static readonly TASK_TYPE: string = 'TASK_TYPE_JOB'
 
+    // The key associated with the Task.
     private key: string
+    // The task tag which is used.
     private tag: string
+    // The date at which the Task is scheduled to execute.
     private scheduledDateTime: Date
+    // Optional payload associated with this the task.
     private payload: any
 
     /**
