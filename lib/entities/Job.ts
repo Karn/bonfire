@@ -30,11 +30,15 @@ class Job implements ITask {
     public constructor(key: string, tag: string, datetime: Date) {
 
         if (!key || key.length === 0) {
-            throw new Error(Errors.INVALID_JOB_KEY)
+            throw new Error(Errors.INVALID_TASK_KEY)
         }
 
         if (!tag || tag.length === 0) {
-            throw new Error(Errors.INVALID_JOB_TYPE)
+            throw new Error(Errors.INVALID_TASK_TYPE)
+        }
+
+        if (!datetime) {
+            throw new Error(Errors.INVALID_TASK_DATE)
         }
 
         this.key = key

@@ -1,24 +1,28 @@
+import { Bonfire } from './../../lib/Index'
+import { Errors } from './../../lib/utils/Errors'
+import { ITask } from '../../lib/descriptors/ITask'
+import { ShadowFirebase } from './../resources/shadows/firebase/ShadowFirebase'
 import * as Chai from 'chai'
 import * as ChaiPromise from 'chai-as-promised'
-import { Bonfire } from './../../lib/Index'
 import * as Firebase from 'firebase-admin'
-import { Errors } from './../../lib/utils/Errors'
-import { ShadowFirebase } from './../resources/shadows/firebase/ShadowFirebase'
-import { ITask } from '../../lib/descriptors/ITask';
 
 describe('Bonfire Test Suite:', () => {
 
+    // Attach ChaiPromise to the global scope.
     Chai.use(ChaiPromise)
     const expect: Chai.ExpectStatic = Chai.expect
 
-    beforeAll(async () => {
+    beforeAll(() => {
         const FirebaseApp = new ShadowFirebase()
         this.ShadowFirebase = FirebaseApp
     })
 
-    describe('BonfireJob Validation:', () => {
+    /**
+     * Validate the Job implementation of the ITask interface.
+     */
+    describe('Job Validation:', () => {
 
-        describe('Instantiating a new BonfireJob object:', () => {
+        describe('Instantiating a new Bonfire Job object:', () => {
             it('should raise an error when a null or empty key is provided', () => {
 
                 // Validate a null key.
@@ -28,7 +32,7 @@ describe('Bonfire Test Suite:', () => {
                         null,
                         null
                     )
-                }).to.throw(Error, Errors.INVALID_JOB_KEY)
+                }).to.throw(Error, Errors.INVALID_TASK_KEY)
 
                 // Validate an empty string
                 expect(() => {
@@ -37,9 +41,8 @@ describe('Bonfire Test Suite:', () => {
                         null,
                         null
                     )
-                }).to.throw(Error, Errors.INVALID_JOB_KEY)
+                }).to.throw(Error, Errors.INVALID_TASK_KEY)
             })
-
             it('should raise an error when a null or empty type is provided', () => {
 
                 // Validate a null type.
@@ -49,7 +52,7 @@ describe('Bonfire Test Suite:', () => {
                         null,
                         null
                     )
-                }).to.throw(Error, Errors.INVALID_JOB_TYPE)
+                }).to.throw(Error, Errors.INVALID_TASK_TYPE)
 
                 // Validate a empty string.
                 expect(() => {
@@ -58,12 +61,20 @@ describe('Bonfire Test Suite:', () => {
                         '',
                         null
                     )
-                }).to.throw(Error, Errors.INVALID_JOB_TYPE)
-
+                }).to.throw(Error, Errors.INVALID_TASK_TYPE)
+            })
+            it('should raise an error when a null date is provided', () => {
+                expect(() => {
+                    new Bonfire.Job(
+                        'test_key',
+                        'TAG_SIMPLE_JOB',
+                        null
+                    )
+                }).to.throw(Error, Errors.INVALID_TASK_DATE)
             })
         })
 
-        describe('Instantiating a BonfireJob from a JSON object:', () => {
+        describe('Instantiating a Bonfire Job from a JSON object:', () => {
             it('should assign the key, type, and scheduled date', () => {
                 const date: number = new Date(Date.now() + 60000).getTime()
 
@@ -87,7 +98,6 @@ describe('Bonfire Test Suite:', () => {
                 expect(job.getScheduledDateTime().getTime()).to.equal(date)
                 expect(job.getPayload()).to.be.undefined
             })
-
             it('and also assign a payload if one is provided', () => {
                 const date: number = new Date(Date.now() + 60000).getTime()
 
@@ -121,22 +131,22 @@ describe('Bonfire Test Suite:', () => {
 
     })
 
-    describe('Bonfire Scheduler:', () => {
+    describe('Scheduler:', () => {
 
         describe('Creating a scheduler:', () => {
             it('should complete gracefully when a valid database ref is provided.', () => {
                 const FirebaseApp: ShadowFirebase = this.ShadowFirebase
 
-                new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+                expect(() => {
+                    new Bonfire.Scheduler(FirebaseApp.database().ref('jobs'), (key: string, job: Bonfire.Job) => { })
+                }).not.to.throw()
             })
-
             it('should raise an error when an invalid ref is provided.', () => {
                 expect(() => {
                     // Null is not a valid geofire ref.
                     new Bonfire.Scheduler(null, (key: string, job: Bonfire.Job) => { })
                 }).to.throw()
             })
-
             it('should queue any jobs that already exist as children in the ref provided.', async (done) => {
 
                 const FirebaseApp: ShadowFirebase = this.ShadowFirebase
