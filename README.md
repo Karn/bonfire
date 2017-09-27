@@ -38,7 +38,7 @@ import { Bonfire } from 'bonfire'
 ```
 
 ###### CONTRIBUTING
-There are many ways to [contribute](./.github/CONTRIBUTNING.md) to Bonfire, you can:
+There are many ways to [contribute](./.github/CONTRIBUTING.md) to Bonfire, you can:
 - submit bugs,
 - help track issues,
 - review code changes,
