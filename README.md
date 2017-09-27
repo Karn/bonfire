@@ -7,7 +7,6 @@ Simple Node scheduling backed by Firebase RD.
 ###### STATUS
 
 [![Build Status](https://travis-ci.org/Karn/bonfire.svg?branch=master)](https://travis-ci.org/Karn/bonfire)
-[![Coverage Status](https://coveralls.io/repos/github/Karn/bonfire/badge.svg?branch=master)](https://coveralls.io/github/Karn/bonfire?branch=master)
 
 ###### FEATURES
 - Scheduling a new job and automatic redundancy via Firebase.
@@ -17,7 +16,6 @@ Simple Node scheduling backed by Firebase RD.
 
 ###### TABLE OF CONTENTS
 - [Using Bonfire](./docs/usage.md)
-- [Test Suite](./docs/test-suite.md)
 - [API Documentation](./docs/api/documentation.md)
 - [Code Style](./docs/misc/code-style.md)
 - [Contributing](./.github/CONTRIBUTING.md)
@@ -38,3 +36,10 @@ $ npm install bonfire --save-exact
 ```javascript
 import { Bonfire } from 'bonfire'
 ```
+
+###### CONTRIBUTING
+There are many ways to [contribute](./.github/CONTRIBUTNING.md) to Bonfire, you can:
+- submit bugs,
+- help track issues,
+- review code changes,
+- or, engage in discussion about new features.

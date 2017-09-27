@@ -7,5 +7,6 @@
 - Remove if not-applicable.
 
 **Validation**:
+- [ ] I have read the contribution agreement.
 - [ ] Linting & Code Style
 - [ ] Additional/udpdated tests
