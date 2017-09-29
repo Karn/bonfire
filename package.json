@@ -1,7 +1,7 @@
 {
   "name": "bonfire",
   "displayName": "Bonfire",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node job scheduling backed by Firebase RD.",
   "keywords": [
     "firebase",
