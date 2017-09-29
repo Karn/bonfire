@@ -8,5 +8,5 @@
 
 **Validation**:
 - [ ] I have read the contribution agreement.
-- [ ] Linting & Code Style
-- [ ] Additional/udpdated tests
+- [ ] Linting & Code Style.
+- [ ] Additional/udpdated tests.
