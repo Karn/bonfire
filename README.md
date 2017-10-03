@@ -15,7 +15,7 @@ Simple Node scheduling backed by Firebase RD.
 
 
 ###### QUICK LINKS
-- [API Documentation](./docs/api/documentation.md)
+- [API Documentation](http://karn.github.io/bonfire)
 - [Contributing](./.github/CONTRIBUTING.md)
 
 
