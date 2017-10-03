@@ -36,7 +36,7 @@ import { Bonfire } from 'bonfire'
 ```
 
 
-###### Using Bonfire
+###### USING BONFIRE
 Start by providing a reference to the Firebase key within your Firebase Database. This will serve as the redundancy mechanism for the queued jobs. Additionally, a callback to process the completed jobs must be specified.
 
 ```javascript
