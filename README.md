@@ -1,4 +1,4 @@
-![Front End Developer Desk](docs/img/header.png)
+![Logo](./docs/img/header.png)
 
 
 ## Bonfire
@@ -14,10 +14,9 @@ Simple Node scheduling backed by Firebase RD.
 - Requeuing existing jobs from a cold server start.
 
 
-###### TABLE OF CONTENTS
+###### QUICK LINKS
 - [Using Bonfire](./docs/usage.md)
 - [API Documentation](./docs/api/documentation.md)
-- [Code Style](./docs/misc/code-style.md)
 - [Contributing](./.github/CONTRIBUTING.md)
 
 
