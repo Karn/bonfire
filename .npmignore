@@ -8,3 +8,4 @@ tsconfig
 .npmignore
 test
 docs
+usage

@@ -15,7 +15,8 @@
     "prepare": "yarn build",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json --type-check ./lib/**/*.ts",
     "build": "tsc",
-    "test": "jest --no-cache"
+    "test": "jest --no-cache",
+    "docgen": "./node_modules/.bin/typedoc --name Bonfire --theme minimal --out docs --mode modules ."
   },
   "repository": "https://github.com/Karn/bonfire.git",
   "author": "Karn Saheb <hello@karn.io>",
