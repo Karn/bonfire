@@ -1,0 +1,3094 @@
+{
+	"id": 0,
+	"name": "bonfire",
+	"kind": 0,
+	"flags": {},
+	"children": [
+		{
+			"id": 146,
+			"name": "\"Bonfire\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/Bonfire.ts",
+			"sources": [
+				{
+					"fileName": "Bonfire.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 147,
+			"name": "\"Index\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/Index.ts",
+			"sources": [
+				{
+					"fileName": "Index.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 66,
+			"name": "\"controllers/FirebaseRedundancyService\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/controllers/FirebaseRedundancyService.ts",
+			"children": [
+				{
+					"id": 67,
+					"name": "FirebaseRedundancyService",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {},
+					"comment": {
+						"shortText": "Provides an redundancy implementation that allows for Task data to be stored\nusing the Firebase Realtime Database."
+					},
+					"children": [
+						{
+							"id": 69,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {
+								"isPublic": true
+							},
+							"comment": {
+								"shortText": "Construct the FirebaseRS object which will provide redundancy for tasks\nqueued by the scheduler."
+							},
+							"signatures": [
+								{
+									"id": 70,
+									"name": "new FirebaseRedundancyService",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Construct the FirebaseRS object which will provide redundancy for tasks\nqueued by the scheduler."
+									},
+									"parameters": [
+										{
+											"id": 71,
+											"name": "reference",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"shortText": "A reference to the firebase node at which the Task data\nis to be stored.\n"
+											},
+											"type": {
+												"type": "reference",
+												"name": "Firebase.database.Reference"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "FirebaseRedundancyService",
+										"id": 67
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 15,
+									"character": 64
+								}
+							]
+						},
+						{
+							"id": 68,
+							"name": "redundancyNodeReference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 15,
+									"character": 35
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Firebase.database.Reference"
+							}
+						},
+						{
+							"id": 82,
+							"name": "commit",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 83,
+									"name": "commit",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Serializes and stores a Task to Firebase.",
+										"returns": "A Promise that resolves once the operation is complete.\n",
+										"tags": [
+											{
+												"tag": "see",
+												"text": "IRedundancyService#commit(ITask)\n"
+											}
+										]
+									},
+									"parameters": [
+										{
+											"id": 84,
+											"name": "task",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "A Task that is being serialized and stored."
+											},
+											"type": {
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IRedundancyService.commit",
+										"id": 61
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 132,
+									"character": 23
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IRedundancyService.commit",
+								"id": 60
+							}
+						},
+						{
+							"id": 72,
+							"name": "deserialize",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPrivate": true
+							},
+							"signatures": [
+								{
+									"id": 73,
+									"name": "deserialize",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Deserialize a JSON object into its corresponding task.",
+										"returns": "A corresponding Task Implementation.\n"
+									},
+									"parameters": [
+										{
+											"id": 74,
+											"name": "data",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The serialized data as a JSON object."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "any"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "ITask",
+										"id": 10
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 38,
+									"character": 23
+								}
+							]
+						},
+						{
+							"id": 79,
+							"name": "fetch",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 80,
+									"name": "fetch",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Fetches Task from Firebase for a given key.",
+										"returns": "A Promise that resolves with the Task associated with the given\n         key if it exists else resolves with null.\n",
+										"tags": [
+											{
+												"tag": "see",
+												"text": "IRedundancyService#fetch(string)\n"
+											}
+										]
+									},
+									"parameters": [
+										{
+											"id": 81,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The key that is being used to fetch the corresponding task."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IRedundancyService.fetch",
+										"id": 58
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 110,
+									"character": 22
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IRedundancyService.fetch",
+								"id": 57
+							}
+						},
+						{
+							"id": 77,
+							"name": "getAll",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 78,
+									"name": "getAll",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Fetch a list of all the tasks that are stored within the given firebase\nnode.",
+										"returns": "A Promise that resolves with a list of Tasks.\n",
+										"tags": [
+											{
+												"tag": "see",
+												"text": "IRedundancyService#getAll()\n"
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "Array",
+												"typeArguments": [
+													{
+														"type": "reference",
+														"name": "ITask",
+														"id": 10
+													}
+												]
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IRedundancyService.getAll",
+										"id": 56
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 65,
+									"character": 23
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IRedundancyService.getAll",
+								"id": 55
+							}
+						},
+						{
+							"id": 75,
+							"name": "getRef",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 76,
+									"name": "getRef",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Return the reference node associated with the redundancy mechanism.",
+										"returns": "A Firebase Reference to the node which contains Task data.\n"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Firebase.database.Reference"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 53,
+									"character": 17
+								}
+							]
+						},
+						{
+							"id": 85,
+							"name": "remove",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 86,
+									"name": "remove",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Remove a given Task from the redundancy store.",
+										"returns": "A promise that resolves once the operation is complete.\n",
+										"tags": [
+											{
+												"tag": "see",
+												"text": "IRedundancyService#remove(string)\n"
+											}
+										]
+									},
+									"parameters": [
+										{
+											"id": 87,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The key that is used to identify the Task that is being\n             removed."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IRedundancyService.remove",
+										"id": 64
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/FirebaseRedundancyService.ts",
+									"line": 150,
+									"character": 23
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IRedundancyService.remove",
+								"id": 63
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								69
+							]
+						},
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								68
+							]
+						},
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								82,
+								72,
+								79,
+								77,
+								75,
+								85
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "controllers/FirebaseRedundancyService.ts",
+							"line": 11,
+							"character": 31
+						}
+					],
+					"implementedTypes": [
+						{
+							"type": "reference",
+							"name": "IRedundancyService",
+							"id": 54
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Classes",
+					"kind": 128,
+					"children": [
+						67
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "controllers/FirebaseRedundancyService.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 115,
+			"name": "\"controllers/Scheduler\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/controllers/Scheduler.ts",
+			"children": [
+				{
+					"id": 116,
+					"name": "Scheduler",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {},
+					"comment": {
+						"shortText": "This implementation of the scehduler object provides task management with a\nFirebase backbone."
+					},
+					"children": [
+						{
+							"id": 120,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 121,
+									"name": "new Scheduler",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 122,
+											"name": "reference",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Firebase.database.Reference"
+											}
+										},
+										{
+											"id": 123,
+											"name": "taskCompletionHandler",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Handlers.TaskCompletionHandler",
+												"id": 90
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Scheduler",
+										"id": 116
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 20,
+									"character": 65
+								}
+							]
+						},
+						{
+							"id": 118,
+							"name": "redundancyService",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 18,
+									"character": 29
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "FirebaseRedundancyService",
+								"id": 67
+							}
+						},
+						{
+							"id": 119,
+							"name": "taskCompletionHandler",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 20,
+									"character": 33
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Handlers.TaskCompletionHandler",
+								"id": 90
+							}
+						},
+						{
+							"id": 117,
+							"name": "taskList",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 16,
+									"character": 20
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Map",
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "reference",
+										"name": "Job"
+									}
+								]
+							}
+						},
+						{
+							"id": 143,
+							"name": "cancel",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 144,
+									"name": "cancel",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Cancel a pending task by key."
+									},
+									"parameters": [
+										{
+											"id": 145,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The key that identifies the task that is to be cancelled.\n"
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IScheduler.cancel",
+										"id": 113
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 194,
+									"character": 23
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IScheduler.cancel",
+								"id": 112
+							}
+						},
+						{
+							"id": 135,
+							"name": "get",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 136,
+									"name": "get",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Fetch a given task by key.",
+										"tags": [
+											{
+												"tag": "see",
+												"text": "IScheduler#get(string)\n"
+											}
+										]
+									},
+									"parameters": [
+										{
+											"id": 137,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IScheduler.get",
+										"id": 107
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 133,
+									"character": 20
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IScheduler.get",
+								"id": 106
+							}
+						},
+						{
+							"id": 124,
+							"name": "getJobCallback",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPrivate": true
+							},
+							"signatures": [
+								{
+									"id": 125,
+									"name": "getJobCallback",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Generates a callback which is executed when the given job is\nscheduled.",
+										"returns": "A function which acts as a callback for when a callback is\n         issued.\n"
+									},
+									"parameters": [
+										{
+											"id": 126,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The firebase key associated with the job."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 127,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"signatures": [
+												{
+													"id": 128,
+													"name": "__call",
+													"kind": 4096,
+													"kindString": "Call signature",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "void"
+													}
+												}
+											],
+											"sources": [
+												{
+													"fileName": "controllers/Scheduler.ts",
+													"line": 51,
+													"character": 40
+												}
+											]
+										}
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 51,
+									"character": 26
+								}
+							]
+						},
+						{
+							"id": 138,
+							"name": "getPendingCount",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 139,
+									"name": "getPendingCount",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Returns the number of pending tasks.",
+										"returns": "The number of tasks that are queued.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IScheduler.getPendingCount",
+										"id": 105
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 142,
+									"character": 26
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IScheduler.getPendingCount",
+								"id": 104
+							}
+						},
+						{
+							"id": 132,
+							"name": "queueExisting",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 133,
+									"name": "queueExisting",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Process tasks that may have not been started due to a server restart.",
+										"returns": "A Promise which resolves when all existing tasks have been\n         queued.\n"
+									},
+									"parameters": [
+										{
+											"id": 134,
+											"name": "tasks",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "A collection of tasks that are to be queued."
+											},
+											"type": {
+												"type": "reference",
+												"name": "Array",
+												"typeArguments": [
+													{
+														"type": "reference",
+														"name": "ITask",
+														"id": 10
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IScheduler.queueExisting",
+										"id": 102
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 107,
+									"character": 30
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IScheduler.queueExisting",
+								"id": 101
+							}
+						},
+						{
+							"id": 140,
+							"name": "schedule",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 141,
+									"name": "schedule",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Schedule a given task."
+									},
+									"parameters": [
+										{
+											"id": 142,
+											"name": "task",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The task that is being scheduled.\n"
+											},
+											"type": {
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										]
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "IScheduler.schedule",
+										"id": 110
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 151,
+									"character": 25
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "IScheduler.schedule",
+								"id": 109
+							}
+						},
+						{
+							"id": 129,
+							"name": "scheduleTask",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPrivate": true
+							},
+							"signatures": [
+								{
+									"id": 130,
+									"name": "scheduleTask",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Leverage the NodeSchedule library to schedule a one time job."
+									},
+									"parameters": [
+										{
+											"id": 131,
+											"name": "task",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The task that is being scheduled.\n"
+											},
+											"type": {
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "void"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "controllers/Scheduler.ts",
+									"line": 82,
+									"character": 24
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								120
+							]
+						},
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								118,
+								119,
+								117
+							]
+						},
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								143,
+								135,
+								124,
+								138,
+								132,
+								140,
+								129
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "controllers/Scheduler.ts",
+							"line": 13,
+							"character": 15
+						}
+					],
+					"implementedTypes": [
+						{
+							"type": "reference",
+							"name": "IScheduler",
+							"id": 100
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Classes",
+					"kind": 128,
+					"children": [
+						116
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "controllers/Scheduler.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 53,
+			"name": "\"descriptors/IRedundancyService\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/descriptors/IRedundancyService.ts",
+			"children": [
+				{
+					"id": 54,
+					"name": "IRedundancyService",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"comment": {
+						"shortText": "Provides a skeleton for Redundancy mechanisms; All operations must be fully\nimplemented."
+					},
+					"children": [
+						{
+							"id": 60,
+							"name": "commit",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 61,
+									"name": "commit",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Takes in, serializes and stores a Task implementation for the purposes\nof redundancy. Note: This overwrites existing data if the key matches.",
+										"returns": "A Promise that resolves if the commit was completed\n         successfully.\n"
+									},
+									"parameters": [
+										{
+											"id": 62,
+											"name": "task",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The task that is being stored."
+											},
+											"type": {
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IRedundancyService.ts",
+									"line": 32,
+									"character": 10
+								}
+							]
+						},
+						{
+							"id": 57,
+							"name": "fetch",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 58,
+									"name": "fetch",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Performs a lookup and retrieves a Task implementation from the\nredundancy service.",
+										"returns": "A Promise that resolves with the task if it exists otherwise it\n         resolves with null.\n"
+									},
+									"parameters": [
+										{
+											"id": 59,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "A unique identifier for a given Task."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IRedundancyService.ts",
+									"line": 22,
+									"character": 9
+								}
+							]
+						},
+						{
+							"id": 55,
+							"name": "getAll",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 56,
+									"name": "getAll",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Return a list of all existing Tasks from the redundancy service."
+									},
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "array",
+												"elementType": {
+													"type": "reference",
+													"name": "ITask",
+													"id": 10
+												}
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IRedundancyService.ts",
+									"line": 12,
+									"character": 10
+								}
+							]
+						},
+						{
+							"id": 63,
+							"name": "remove",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 64,
+									"name": "remove",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Removes a Task implementaion from the redundancy mechanism based on the\nprovided key.",
+										"returns": "A promise that resolves if the removal was completed\n         successfully.\n"
+									},
+									"parameters": [
+										{
+											"id": 65,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "A unique identifier for a given Task."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IRedundancyService.ts",
+									"line": 42,
+									"character": 10
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								60,
+								57,
+								55,
+								63
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "descriptors/IRedundancyService.ts",
+							"line": 7,
+							"character": 28
+						}
+					],
+					"implementedBy": [
+						{
+							"type": "reference",
+							"name": "FirebaseRedundancyService",
+							"id": 67
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Interfaces",
+					"kind": 256,
+					"children": [
+						54
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "descriptors/IRedundancyService.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 99,
+			"name": "\"descriptors/IScheduler\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/descriptors/IScheduler.ts",
+			"children": [
+				{
+					"id": 100,
+					"name": "IScheduler",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"comment": {
+						"shortText": "Provides a skeleton for a Scheduler; All operations must be fully\nimplemented."
+					},
+					"children": [
+						{
+							"id": 112,
+							"name": "cancel",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 113,
+									"name": "cancel",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Cancel an existing Task which is scheduled for exectution.",
+										"returns": "A Promise which resolves once the operation has completed.\n"
+									},
+									"parameters": [
+										{
+											"id": 114,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The key associated with the Task that is being cancelled."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IScheduler.ts",
+									"line": 51,
+									"character": 10
+								}
+							]
+						},
+						{
+							"id": 106,
+							"name": "get",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 107,
+									"name": "get",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Fetch a particular Task from a given key.",
+										"returns": "A Promise that resolves with a Task that corresponds to the\n         given key or null if it does not exist.\n"
+									},
+									"parameters": [
+										{
+											"id": 108,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "Used to identify what Task is being retrieved."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IScheduler.ts",
+									"line": 32,
+									"character": 7
+								}
+							]
+						},
+						{
+							"id": 104,
+							"name": "getPendingCount",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 105,
+									"name": "getPendingCount",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Determine the number of locally queued Tasks.",
+										"returns": "The count of locally queued Tasks as a number.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IScheduler.ts",
+									"line": 23,
+									"character": 19
+								}
+							]
+						},
+						{
+							"id": 101,
+							"name": "queueExisting",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 102,
+									"name": "queueExisting",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Queue existing tasks. Useful when, for example, the implementing product\nrestarts and needs to continue to process Tasks seamlessly.",
+										"returns": "A promise that resolves once the operation is complete.\n"
+									},
+									"parameters": [
+										{
+											"id": 103,
+											"name": "tasks",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "A collection of Tasks that are to be scheduled."
+											},
+											"type": {
+												"type": "reference",
+												"name": "Array",
+												"typeArguments": [
+													{
+														"type": "reference",
+														"name": "ITask",
+														"id": 10
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "intrinsic",
+												"name": "void"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IScheduler.ts",
+									"line": 16,
+									"character": 17
+								}
+							]
+						},
+						{
+							"id": 109,
+							"name": "schedule",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 110,
+									"name": "schedule",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Schedules a given Task for execution at a later Date/Time.",
+										"returns": "A Promise which resolves with the same task that is provided or\n         with another task for which the given key maps to. I.e if\n         another Task has been scheduled with the same key, that Task is\n         returned.\n"
+									},
+									"parameters": [
+										{
+											"id": 111,
+											"name": "task",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The Task that is being scheduled."
+											},
+											"type": {
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Promise",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"name": "ITask",
+												"id": 10
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/IScheduler.ts",
+									"line": 43,
+									"character": 12
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								112,
+								106,
+								104,
+								101,
+								109
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "descriptors/IScheduler.ts",
+							"line": 7,
+							"character": 20
+						}
+					],
+					"implementedBy": [
+						{
+							"type": "reference",
+							"name": "Scheduler",
+							"id": 116
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Interfaces",
+					"kind": 256,
+					"children": [
+						100
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "descriptors/IScheduler.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 9,
+			"name": "\"descriptors/ITask\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/descriptors/ITask.ts",
+			"children": [
+				{
+					"id": 10,
+					"name": "ITask",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"comment": {
+						"shortText": "Provides a skeleton for a Task; All operations must be fully\nimplemented."
+					},
+					"children": [
+						{
+							"id": 21,
+							"name": "asJson",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 22,
+									"name": "asJson",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Serializes the entirety of the data into a JSON object.",
+										"returns": "The Task as a JSON object.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/ITask.ts",
+									"line": 50,
+									"character": 10
+								}
+							]
+						},
+						{
+							"id": 11,
+							"name": "getKey",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 12,
+									"name": "getKey",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "A key that uniquely identifies a given Task.",
+										"returns": "A unique key associated with this Task.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/ITask.ts",
+									"line": 12,
+									"character": 10
+								}
+							]
+						},
+						{
+							"id": 19,
+							"name": "getPayload",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 20,
+									"name": "getPayload",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Contains a larger set of JSON data associated with the task.",
+										"returns": "A JSON object containing any additional data associated with\n         this Task.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/ITask.ts",
+									"line": 43,
+									"character": 14
+								}
+							]
+						},
+						{
+							"id": 17,
+							"name": "getScheduledDateTime",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 18,
+									"name": "getScheduledDateTime",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Contains the Date/Time for execution of this Task.",
+										"returns": "A Date object representing the Date/Time of exectution.\n"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Date"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/ITask.ts",
+									"line": 35,
+									"character": 24
+								}
+							]
+						},
+						{
+							"id": 15,
+							"name": "getTag",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 16,
+									"name": "getTag",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Any additionaly sub-category is provided by this value.",
+										"returns": "A string that may identify any sub-type of this Task.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/ITask.ts",
+									"line": 28,
+									"character": 10
+								}
+							]
+						},
+						{
+							"id": 13,
+							"name": "getType",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 14,
+									"name": "getType",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "The type represents the mapping that is used to distinguish between the\ntype to Task objects. This is what is used to properly deserialize the\nright task.",
+										"returns": "A string that identifies the type of Task.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "descriptors/ITask.ts",
+									"line": 21,
+									"character": 11
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								21,
+								11,
+								19,
+								17,
+								15,
+								13
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "descriptors/ITask.ts",
+							"line": 5,
+							"character": 15
+						}
+					],
+					"implementedBy": [
+						{
+							"type": "reference",
+							"name": "Job",
+							"id": 24
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Interfaces",
+					"kind": 256,
+					"children": [
+						10
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "descriptors/ITask.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 23,
+			"name": "\"entities/Job\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/entities/Job.ts",
+			"children": [
+				{
+					"id": 24,
+					"name": "Job",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {},
+					"comment": {
+						"shortText": "A simple implementation of the Task interface. Provides a one-time firing\nTask."
+					},
+					"children": [
+						{
+							"id": 30,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {
+								"isPublic": true
+							},
+							"comment": {
+								"shortText": "Create the basic components of a Job."
+							},
+							"signatures": [
+								{
+									"id": 31,
+									"name": "new Job",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Create the basic components of a Job."
+									},
+									"parameters": [
+										{
+											"id": 32,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"shortText": "A unique key to identify this job."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										},
+										{
+											"id": 33,
+											"name": "tag",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"shortText": "The type used to catagorize this job."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										},
+										{
+											"id": 34,
+											"name": "datetime",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Date"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Job",
+										"id": 24
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 20,
+									"character": 24
+								}
+							]
+						},
+						{
+							"id": 26,
+							"name": "key",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 14,
+									"character": 15
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 29,
+							"name": "payload",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 20,
+									"character": 19
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						},
+						{
+							"id": 28,
+							"name": "scheduledDateTime",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 18,
+									"character": 29
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Date"
+							}
+						},
+						{
+							"id": 27,
+							"name": "tag",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isPrivate": true
+							},
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 16,
+									"character": 15
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 25,
+							"name": "TASK_TYPE",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 11,
+									"character": 36
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"TASK_TYPE_JOB\""
+						},
+						{
+							"id": 51,
+							"name": "asJson",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 52,
+									"name": "asJson",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Construct a JSON representation of this object; aids in the\n'serialization' when saving for redundancy.",
+										"returns": "A JSON representation of this object.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "ITask.asJson",
+										"id": 22
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 136,
+									"character": 17
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "ITask.asJson",
+								"id": 21
+							}
+						},
+						{
+							"id": 35,
+							"name": "getKey",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 36,
+									"name": "getKey",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "A key that uniquely identifies this object.",
+										"returns": "Key/ID associated with this object.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "ITask.getKey",
+										"id": 12
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 54,
+									"character": 17
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "ITask.getKey",
+								"id": 11
+							}
+						},
+						{
+							"id": 43,
+							"name": "getPayload",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 44,
+									"name": "getPayload",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Returns the payload associated with this object.",
+										"returns": "The payload as a JSON object.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "ITask.getPayload",
+										"id": 20
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 93,
+									"character": 21
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "ITask.getPayload",
+								"id": 19
+							}
+						},
+						{
+							"id": 41,
+							"name": "getScheduledDateTime",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 42,
+									"name": "getScheduledDateTime",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Returns the time at which this job will be executed.",
+										"returns": "A Date object representing the time of execution.\n"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Date"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "ITask.getScheduledDateTime",
+										"id": 18
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 84,
+									"character": 31
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "ITask.getScheduledDateTime",
+								"id": 17
+							}
+						},
+						{
+							"id": 37,
+							"name": "getTag",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 38,
+									"name": "getTag",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Identifies the type of task represented by this class.",
+										"returns": "A string identifying this Task.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "ITask.getTag",
+										"id": 16
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 63,
+									"character": 17
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "ITask.getTag",
+								"id": 15
+							}
+						},
+						{
+							"id": 39,
+							"name": "getType",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 40,
+									"name": "getType",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Return the type of this Job. This is particularily useful for instances\nwhere you have specific categories of actions, e.g a job with type\nDELETE_SESSION, using this value you could delegate a task to perfom a\nsession delete from within the jobCompletionHandler.",
+										"returns": "The type of job described by this object.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									},
+									"implementationOf": {
+										"type": "reference",
+										"name": "ITask.getType",
+										"id": 14
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 75,
+									"character": 18
+								}
+							],
+							"implementationOf": {
+								"type": "reference",
+								"name": "ITask.getType",
+								"id": 13
+							}
+						},
+						{
+							"id": 45,
+							"name": "setPayload",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 46,
+									"name": "setPayload",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Set/update the payload associated with this object."
+									},
+									"parameters": [
+										{
+											"id": 47,
+											"name": "payload",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "The payload as a JSON object.\n"
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "any"
+											}
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "void"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 102,
+									"character": 21
+								}
+							]
+						},
+						{
+							"id": 48,
+							"name": "fromJson",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"signatures": [
+								{
+									"id": 49,
+									"name": "fromJson",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"comment": {
+										"shortText": "Construct a BonfireJob object from a JSON object.",
+										"returns": "A BonfireJob object corresponding to the JSON object provided.\n"
+									},
+									"parameters": [
+										{
+											"id": 50,
+											"name": "data",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"comment": {
+												"text": "Key-value pairs representing fields that can be mapped to a\n             job."
+											},
+											"type": {
+												"type": "intrinsic",
+												"name": "any"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Job",
+										"id": 24
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "entities/Job.ts",
+									"line": 113,
+									"character": 26
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								30
+							]
+						},
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								26,
+								29,
+								28,
+								27,
+								25
+							]
+						},
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								51,
+								35,
+								43,
+								41,
+								37,
+								39,
+								45,
+								48
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "entities/Job.ts",
+							"line": 8,
+							"character": 9
+						}
+					],
+					"implementedTypes": [
+						{
+							"type": "reference",
+							"name": "ITask",
+							"id": 10
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Classes",
+					"kind": 128,
+					"children": [
+						24
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "entities/Job.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 1,
+			"name": "\"utils/Errors\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/utils/Errors.ts",
+			"children": [
+				{
+					"id": 2,
+					"name": "Errors",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {},
+					"comment": {
+						"shortText": "Error strings are detailed as constants here. Using constants allows for\nconsistent messages. Since no custom errors are used, the message must\nprovide appropriate context and data."
+					},
+					"children": [
+						{
+							"id": 3,
+							"name": "INVALID_ROOT_REFERENCE",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "utils/Errors.ts",
+									"line": 8,
+									"character": 49
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"Bonfire: Attempt to instantiate with invalid reference.\""
+						},
+						{
+							"id": 7,
+							"name": "INVALID_TASK_DATE",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "utils/Errors.ts",
+									"line": 12,
+									"character": 44
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"The task type must have a valid date.\""
+						},
+						{
+							"id": 5,
+							"name": "INVALID_TASK_KEY",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "utils/Errors.ts",
+									"line": 10,
+									"character": 43
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"Invalid Key provided.\""
+						},
+						{
+							"id": 6,
+							"name": "INVALID_TASK_TYPE",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "utils/Errors.ts",
+									"line": 11,
+									"character": 44
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"The task type must be a valid string and with a length greater than 0.\""
+						},
+						{
+							"id": 4,
+							"name": "SCHEDULED_IN_PAST",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "utils/Errors.ts",
+									"line": 9,
+									"character": 44
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"Cannot schedule a task to complete in a time that is the past.\""
+						},
+						{
+							"id": 8,
+							"name": "TASK_ALREADY_EXISTS",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isPublic": true
+							},
+							"sources": [
+								{
+									"fileName": "utils/Errors.ts",
+									"line": 15,
+									"character": 46
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "\"Task with the same key already exists. The task cannot be created.\""
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								3,
+								7,
+								5,
+								6,
+								4,
+								8
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "utils/Errors.ts",
+							"line": 6,
+							"character": 12
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Classes",
+					"kind": 128,
+					"children": [
+						2
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "utils/Errors.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 88,
+			"name": "\"utils/Handlers\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "/Users/karn/source/bonfire/lib/utils/Handlers.ts",
+			"children": [
+				{
+					"id": 89,
+					"name": "Handlers",
+					"kind": 2,
+					"kindString": "Module",
+					"flags": {},
+					"comment": {
+						"shortText": "A wrapper namespace for common callbacks (aka Result Handlers)."
+					},
+					"children": [
+						{
+							"id": 90,
+							"name": "TaskCompletionHandler",
+							"kind": 4194304,
+							"kindString": "Type alias",
+							"flags": {
+								"isExported": true
+							},
+							"comment": {
+								"shortText": "When a given task has completed, this event handler used to notify\nof the completion.",
+								"tags": [
+									{
+										"tag": "param",
+										"text": "The key associated with the task that has completed.",
+										"param": "key"
+									},
+									{
+										"tag": "param",
+										"text": "The above mentioned task.\n",
+										"param": "task"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "utils/Handlers.ts",
+									"line": 15,
+									"character": 37
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 91,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 92,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 93,
+													"name": "key",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												},
+												{
+													"id": 94,
+													"name": "task",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"name": "ITask",
+														"id": 10
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "utils/Handlers.ts",
+											"line": 15,
+											"character": 39
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 95,
+							"name": "TaskCreatedResult",
+							"kind": 4194304,
+							"kindString": "Type alias",
+							"flags": {
+								"isExported": true
+							},
+							"comment": {
+								"shortText": "A Handler that notifies when a new task has been completed.",
+								"tags": [
+									{
+										"tag": "param",
+										"text": "The task object corresponding to the task that has been\n             created.\n",
+										"param": "task"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "utils/Handlers.ts",
+									"line": 23,
+									"character": 33
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 96,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 97,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 98,
+													"name": "task",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"name": "ITask",
+														"id": 10
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "utils/Handlers.ts",
+											"line": 23,
+											"character": 35
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Type aliases",
+							"kind": 4194304,
+							"children": [
+								90,
+								95
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "utils/Handlers.ts",
+							"line": 6,
+							"character": 18
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Modules",
+					"kind": 2,
+					"children": [
+						89
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "utils/Handlers.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "External modules",
+			"kind": 1,
+			"children": [
+				146,
+				147,
+				66,
+				115,
+				53,
+				99,
+				9,
+				23,
+				1,
+				88
+			]
+		}
+	]
+}
